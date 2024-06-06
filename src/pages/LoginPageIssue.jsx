@@ -161,7 +161,7 @@ const LoginPageIssue = () => {
                   </div>
                 </div>
 
-                <Link to="/homeverify">
+                <Link to="/home">
                   <div className="pt-4">
                     <button class="w-full h-12 shadow-sm rounded-md bg-[#1A3D93] hover:bg-[#1A3D93] transition-all duration-700 text-white text-base font-semibold leading-7">
                       เข้าสู่ระบบ
