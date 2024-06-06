@@ -1,9 +1,15 @@
 // src/pages/ProfilePage.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import { Col, Row, Card, Modal, Space, QRCode } from "antd";
-import Avatarprofile from "../../assets/img/Avatarprofile.png";
-import approvedAnimationGif from "../../assets/img/success.gif"
+import { Col, Row, Card, Modal, Space, QRCode, Form, Spin } from "antd";
+import Avatarprofile from "@/assets/img/Avatarprofile.png";
+import approvedAnimationGif from "@/assets/img/success.gif";
+import {
+  createInvitation,
+  createOffer,
+  deleteConnection,
+  sendOffer,
+} from "@/utils/agent";
 
 const ProfilePage = () => {
   //CALL VARIABLE FROM ENV
@@ -11,22 +17,133 @@ const ProfilePage = () => {
   const AgentWss = import.meta.env.VITE_ISSUER_WSS;
   const AgentKey = import.meta.env.VITE_ISSUER_KEY;
   const CredDefId = import.meta.env.VITE_CREDDEF_GUIDE_LICENSE;
-
+  const [form] = Form.useForm();
   const [index, setIndex] = useState(0);
-    const [qrLink, setQrLink] = useState("");
-    const [connection_id, setConnectionId] = useState("");
-    //    const [person, setPerson] = useState({})
-    const [license, setLicense] = useState({});
-    const {lastMessage, readyState } = useWebSocket(
-        `${AgentWss}?apikey=${AgentKey}`
-    );
-    // const [abandon, setAbandon] = useState(false);
-    const [offerSent, setOfferSent] = useState(false);
+  const [qrLink, setQrLink] = useState("");
+  const [connection_id, setConnectionId] = useState("");
+  //    const [person, setPerson] = useState({})
+  const [license, setLicense] = useState({});
+  const { lastMessage, readyState } = useWebSocket(
+    `${AgentWss}?apikey=${AgentKey}`
+  );
+  // const [abandon, setAbandon] = useState(false);
+  const [offerSent, setOfferSent] = useState(false);
   //
 
   const [selectedMenu, setSelectedMenu] = useState("profile");
   const [loading, setLoading] = useState(false);
+  const [isQrSuccess, setIsQrSuccess] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const handleSubmit = async (values) => {
+    setIndex(0);
+    invite();
+  };
+
+  const invite = async () => {
+    try {
+      setLoading(true);
+      const inv = await createInvitation(AgentUrl, AgentKey);
+      setConnectionId(inv.connection_id);
+      setQrLink(inv.invitation_url);
+      setIndex((prevIndex) => prevIndex + 1);
+      setLoading(false);
+      console.log("invitation_url", inv.invitation_url);
+    } catch (error) {
+      console.error("Error creating invitation:", error);
+    }
+  };
+
+  //const nextStep = () => {
+  //    setIndex((i) => i + 1);
+  //};
+
+  /*
+const handleScanQr = async () => {
+    console.log(JSON.stringify(license));
+    const offer = createOffer(connection_id, CredDefId, license);
+    console.log(JSON.stringify(offer));
+    const offerResult = await sendOffer(AgentUrl, offer);
+    console.log(offerResult);
+    setIndex(2);
+};*/
+
+  const sendCredentialOffer = async () => {
+    setLoading(true);
+    const offer = createOffer(connection_id, CredDefId, license);
+    console.log(JSON.stringify(offer));
+    const result = await sendOffer(AgentUrl, AgentKey, offer);
+
+    return result;
+  };
+
+  const credentialAck = () => {
+    setLoading(false);
+    setIndex(2);
+  };
+
+  /*
+const credentialAbandon = () => {
+    setLoading(false);
+    setAbandon(true);
+    setIndex(2);
+};
+*/
+  const goBackStep0 = async () => {
+    setIndex(0);
+    //setAbandon(false);
+    setOfferSent(false);
+    setLoading(false);
+    // If go back to first step, should remove invition to avoid abandon connection
+    await deleteConnection(AgentUrl, AgentKey, connection_id);
+  };
+
+  useEffect(() => {
+    if (lastMessage !== null) {
+      const data = JSON.parse(lastMessage.data);
+      if (data["topic"] != "ping") {
+        console.log(data);
+      }
+      if (data["topic"] === "connections") {
+        const state = data["payload"]["state"];
+        const conid = data["payload"]["connection_id"];
+        if (state == "active" && conid == connection_id) {
+          console.log("Try to send credential offer.");
+          sendCredentialOffer();
+        }
+      }
+      if (
+        data["topic"] === "issue_credential" &&
+        connection_id === data["payload"]["connection_id"]
+      ) {
+        const state = data["payload"]["state"];
+        if (state === "request_received") {
+          //setCredExId(data['payload']['credential_exchange_id'])
+        }
+        if (state === "offer_sent") {
+          setOfferSent(true);
+        }
+        //if (state === 'credential_acked' && cred_ex_id === data['payload']['credential_exchange_id']) {
+        if (state === "credential_acked") {
+          credentialAck();
+        }
+        //if (state === 'abandoned' && cred_ex_id === data['payload']['credential_exchange_id']) {
+        if (state === "abandoned") {
+          console.log("It's abandon");
+          // credentialAbandon();
+        }
+      }
+    }
+  }, [lastMessage, form]);
+
+  const connectionStatus = {
+    [ReadyState.CONNECTING]: "Connecting",
+    [ReadyState.OPEN]: "Open",
+    [ReadyState.CLOSING]: "Closing",
+    [ReadyState.CLOSED]: "Closed",
+    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
+  }[readyState];
+
   const showModal = () => {
     setOpen(true);
   };
@@ -57,7 +174,10 @@ const ProfilePage = () => {
             className="rounded-3xl w-full"
             extra={
               <button
-                onClick={showModal}
+                onClick={() => {
+                  showModal();
+                  handleSubmit();
+                }}
                 type="button"
                 className="py-2.5 px-6 text-sm rounded-full bg-[#1A3D93] text-white cursor-pointer text-body font-light text-center shadow-xs transition-all duration-500 hover:bg-indigo-700"
               >
@@ -202,7 +322,21 @@ const ProfilePage = () => {
                           >
                             <div className="h-5 items-center gap-3 flex">
                               <div className="relative">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.496 21H6.5c-1.105 0-2-1.151-2-2.571V5.57c0-1.419.895-2.57 2-2.57h7M16 15.5l3.5-3.5L16 8.5m-6.5 3.496h10"/></svg>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.5"
+                                    d="M13.496 21H6.5c-1.105 0-2-1.151-2-2.571V5.57c0-1.419.895-2.57 2-2.57h7M16 15.5l3.5-3.5L16 8.5m-6.5 3.496h10"
+                                  />
+                                </svg>
                               </div>
                               <h2 className="text-gray-500 text-sm font-medium leading-snug">
                                 ออกจากระบบ
@@ -227,21 +361,58 @@ const ProfilePage = () => {
         onOk={handleOk}
         onCancel={handleCancel}
         centered
-        footer={
-          <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px]">
-            <p>กรุณาสแกน QR Code บนแอพ Wallet Pass Application</p>
-            <p className="text-[#8F90A6] text-[14px]">
-              สแกน QR Code เพื่อเพิ่ม Verifiable Credentials
-            </p>
-          </div>
-        }
         width={500}
         height={500}
+        footer={false}
       >
         <div className="flex flex-col items-center justify-center text-center mt-8 mb-6">
           <Space>
-            <QRCode type="svg" value="https://ant.design/" size={'256px'}/>
-            {/* <img src={approvedAnimationGif} alt="Approved" style={{ width: 256, height: 256 }} /> */}
+            {loading ? (
+              <div className="loader border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
+            ) : index === 1 ? (
+              <div className="flex flex-col items-center justify-center">
+              <div className="relative">
+                <QRCode
+                  type="svg"
+                  value={qrLink}
+                  size={256}
+                />
+              </div>
+              <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px] mt-5">
+                <p>กรุณาสแกน QR Code บนแอพ Wallet Pass Application</p>
+                <p className="text-[#8F90A6] text-[14px]">
+                  สแกน QR Code เพื่อเพิ่ม Verifiable Credentials
+                </p>
+              </div>
+            </div>
+            ) : index === 1 && loading ? (
+              <div className="flex flex-col items-center justify-center">
+              <div className="relative">
+                <QRCode
+                  type="svg"
+                  value={qrLink}
+                  size={256}
+                  className={`${loading ? 'opacity-50' : ''}`}
+                />
+                {loading && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50">
+                    <div className="loader border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px] mt-5">
+                <p>โปรดรอสักครู่...</p>
+              </div>
+            </div>
+            ) : index === 2 ? (
+              <img
+                src={approvedAnimationGif}
+                alt="Approved"
+                style={{ width: 256, height: 256 }}
+              />
+            ) : (
+              ""
+            )}
           </Space>
         </div>
       </Modal>
