@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        background-color: #F1F6FA;
+
+     
+    }
+}
+
+.dark .text-customBlue {
+    color: #1A3D93;
+  }
+
+
+.text-body {
+    font-family: 'prompt', sans-serif !important;
+
+}
+
+.text-profile * {
+    font-family: 'sarabun', sans-serif;
+
+}
