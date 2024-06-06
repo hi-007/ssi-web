@@ -1,14 +1,29 @@
 // src/pages/ProfilePage.jsx
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Col, Row, Card, Modal, Space, QRCode } from "antd";
 import Avatarprofile from "../../assets/img/Avatarprofile.png";
-import { ExclamationCircleFilled } from "@ant-design/icons";
 
 const ProfilePage = () => {
-  const [selectedMenu, setSelectedMenu] = useState("profile");
+  //CALL VARIABLE FROM ENV
+  const AgentUrl = import.meta.env.VITE_ISSUER_API;
+  const AgentWss = import.meta.env.VITE_ISSUER_WSS;
+  const AgentKey = import.meta.env.VITE_ISSUER_KEY;
+  const CredDefId = import.meta.env.VITE_CREDDEF_GUIDE_LICENSE;
 
+  const [index, setIndex] = useState(0);
+    const [qrLink, setQrLink] = useState("");
+    const [connection_id, setConnectionId] = useState("");
+    //    const [person, setPerson] = useState({})
+    const [license, setLicense] = useState({});
+    const {lastMessage, readyState } = useWebSocket(
+        `${AgentWss}?apikey=${AgentKey}`
+    );
+    // const [abandon, setAbandon] = useState(false);
+    const [offerSent, setOfferSent] = useState(false);
+  //
+
+  const [selectedMenu, setSelectedMenu] = useState("profile");
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const showModal = () => {
@@ -257,19 +272,22 @@ const ProfilePage = () => {
         title=""
         onOk={handleOk}
         onCancel={handleCancel}
+        centered
         footer={
-          <div className="flex flex-col items-center justify-center text-center text-profile">
-            <p>กรุณาสแกน QR Code บทแอพ Wallet Pass Application </p>
-            <p className="text-[#8F90A6]">
+          <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px]">
+            <p>กรุณาสแกน QR Code บนแอพ Wallet Pass Application</p>
+            <p className="text-[#8F90A6] text-[14px]">
               สแกน QR Code เพื่อเพิ่ม Verifiable Credentials
             </p>
           </div>
         }
-        width={370}
+        width={500}
+        height={500}
       >
         <div className="flex flex-col items-center justify-center text-center mt-8 mb-6">
           <Space>
-            <QRCode type="svg" value="https://ant.design/" />
+            <QRCode type="svg" value="https://ant.design/" size={'256px'}/>
+            {/* <img src={approvedAnimationGif} alt="Approved" style={{ width: 256, height: 256 }} /> */}
           </Space>
         </div>
       </Modal>
