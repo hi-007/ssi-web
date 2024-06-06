@@ -28,11 +28,13 @@ const App = () => {
                 <Route element={<LoginLayoutIssue />}>
                     <Route path="/loginPageIssue" element={<LoginPageIssue />} />
                     <Route element={<AuthenticatedLayoutIssue />}>
+                        <Route path="/" element={<HomePage />} />
                         <Route path="/home" element={<HomePage />} />
                         <Route path="/organization-info" element={<OrganizationInfoPage />} />
                         <Route path="/news-info" element={<NewsInfoPage />} />
                         <Route path="/faq" element={<FAQPage />} />
                         <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/issuer" element={<ProfilePage />} />
                     </Route>
                 </Route>
                 <Route element={<LoginLayoutVerify />}>
