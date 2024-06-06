@@ -4,6 +4,10 @@ import { useState } from "react";
 import { Col, Row, Card, Modal, Space, QRCode } from "antd";
 import Group6 from "../../assets/img/Group6.png";
 
+import { FaFacebook, FaTwitter, FaWallet } from "react-icons/fa";
+import { RiGovernmentLine } from "react-icons/ri";
+import Card2 from "../../components/Card2";
+
 const ProfilePageVerify = () => {
   const [selectedMenu, setSelectedMenu] = useState("profile");
 
@@ -23,74 +27,35 @@ const ProfilePageVerify = () => {
     setOpen(false);
   };
 
-  const renderCardContent = () => {
-    switch (selectedMenu) {
-      case "profile":
-        return (
-          <Card
-            title={
-              <>
-                <p className="text-md font-semibold text-[#9E9E9E] ">
-                  ข้อมูลของฉัน
-                </p>
-              </>
-            }
-            bordered={false}
-            className="rounded-3xl w-full"
-            extra={
-              <button
-                onClick={showModal}
-                type="button"
-                className="py-2.5 px-6 text-sm rounded-full bg-[#1A3D93] text-white cursor-pointer text-body font-light text-center shadow-xs transition-all duration-500 hover:bg-indigo-700"
-              >
-                สร้าง Verifiable Credentials
-              </button>
-            }
-          >
-            <div class="flex">
-              <div class="flex-initial w-64 font-normal text-[#9E9E9E] text-md">
-                <p className="py-2">ชื่อ-นามสกุล</p>
-                <p className="py-2">รหัสพนักงาน</p>
-                <p className="py-2">ตำแหน่ง</p>
-                <p className="py-2">สังกัด</p>
-                <p className="py-2">เบอร์โทรศัพท์ (มือถือ)</p>
-                <p className="py-2">อีเมล</p>
-              </div>
-              <div class="flex-initial w-32 ...">
-                <p className="py-2">วีระพล จงจำรัส</p>
-                <p className="py-2">2034 0051 00000</p>
-                <p className="py-2">แอดมิน</p>
-                <p className="py-2">สำนักงานใหญ่</p>
-                <p className="py-2">09-4311-5619</p>
-                <p className="py-2">example@mail.com</p>
-              </div>
-            </div>
-          </Card>
-        );
-      case "settings":
-        return (
-          <Card
-            title="Settings"
-            bordered={false}
-            className="rounded-3xl w-full"
-          >
-            <p>Settings content</p>
-            <p>Settings content</p>
-            <p>Settings content</p>
-          </Card>
-        );
-      case "logout":
-        return (
-          <Card title="Logout" bordered={false} className="rounded-3xl w-full">
-            <p>Logout content</p>
-            <p>Logout content</p>
-            <p>Logout content</p>
-          </Card>
-        );
-      default:
-        return null;
-    }
-  };
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  const cards = [
+    {
+      id: 1,
+      icon: <FaWallet size={24} />,
+      title: "ขอผ่าน Verifiable Credentials",
+      description:
+        "สแกน QR Code ผ่าน Wallet Pass Application เพื่อเพิ่ม Verifiable Credentials",
+    },
+    {
+      id: 2,
+      icon: <RiGovernmentLine size={24} />,
+      title: "เข้ามาติดต่อที่ส่วนกลาง",
+      description: "เข้ามาติดต่อเจ้าหน้าที่ที่สำนักงานใหญ่",
+    },
+    {
+      id: 3,
+      icon: <FaFacebook size={24} />,
+      title: "ติดต่อผ่านช่องทาง Facebook",
+      description: "ติดต่อผ่านเจ้าหน้าที่ทาง Facebook",
+    },
+    {
+      id: 4,
+      icon: <FaTwitter size={24} />,
+      title: "ติดต่อผ่านช่องทาง Twitter",
+      description: "ติดต่อผ่านเจ้าหน้าที่ทาง Twitter",
+    },
+  ];
 
   return (
     <>
@@ -144,10 +109,23 @@ const ProfilePageVerify = () => {
 
               <Col span={18}>
                 <Card title="" bordered={false} className="rounded-3xl w-full">
-                <p className="text-lg font-semibold"> ต้องการขอผ่านช่องทางใด</p>
+                  <p className="text-lg font-semibold">
+                    {" "}
+                    ต้องการขอผ่านช่องทางใด
+                  </p>
 
-                  
-                 
+                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {cards.map((card) => (
+                      <Card2
+                        key={card.id}
+                        icon={card.icon}
+                        title={card.title}
+                        description={card.description}
+                        isSelected={selectedCard === card.id}
+                        onClick={() => setSelectedCard(card.id)}
+                      />
+                    ))}
+                  </div>
                 </Card>
                 <div class="flex justify-end mt-4">
                   <div>
@@ -158,8 +136,6 @@ const ProfilePageVerify = () => {
                       >
                         ยกเลิก
                       </button>
-
-                      
                     </div>
                   </div>
                   <div>
