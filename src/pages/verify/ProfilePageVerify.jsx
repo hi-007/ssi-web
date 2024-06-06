@@ -80,12 +80,13 @@ const ProfilePageVerify = () => {
                   <div className="flex flex-col items-center px-6">
                     <img src={Group6} alt="Logo" className="h-58" />
                   </div>
-                  <div>
-                    <div className="pt-4 ">
+                  <div className="pt-4 grid justify-items-center">
                       <h2 className="text-xl font-semibold text-gray-900">
                         รายละเอียดเพิ่มเติม
                       </h2>
                     </div>
+                  <div>
+                   
 
                     <div className="pt-4">
                       <p>ข้อควรปฏิบัติ</p>
