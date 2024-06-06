@@ -1,8 +1,10 @@
 // src/pages/ProfilePage.jsx
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Col, Row, Card, Modal, Space, QRCode } from "antd";
 import Avatarprofile from "../../assets/img/Avatarprofile.png";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 
 const ProfilePage = () => {
   const [selectedMenu, setSelectedMenu] = useState("profile");
@@ -21,6 +23,43 @@ const ProfilePage = () => {
   };
   const handleCancel = () => {
     setOpen(false);
+  };
+
+  const [showModalLogout, setShowModalLogout] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setShowModalLogout(true);
+  };
+
+  const confirmLogout = () => {
+    setShowModalLogout(false);
+    navigate("/loginPageIssue"); // Adjust this path according to your routing setup
+  };
+
+  const { confirm } = Modal;
+
+  const showConfirm = () => {
+    confirm({
+      title: "ยืนยันการออกจากระบบ",
+      icon: <ExclamationCircleFilled />,
+      content: "คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบ?",
+      okText: "ยืนยัน",
+      cancelText: "ยกเลิก",
+      className: "text-profile",
+      onOk() {
+        navigate("/loginPageIssue"); // Adjust this path according to your routing setup
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+      okButtonProps: {
+        className: 'bg-blue-900 hover:bg-blue-700 text-white',
+      },
+      cancelButtonProps: {
+        className: 'bg-gray-100 hover:bg-gray-300 text-gray-700',
+      },
+    });
   };
 
   const renderCardContent = () => {
@@ -79,14 +118,7 @@ const ProfilePage = () => {
             <p>Settings content</p>
           </Card>
         );
-      case "logout":
-        return (
-          <Card title="Logout" bordered={false} className="rounded-3xl w-full">
-            <p>Logout content</p>
-            <p>Logout content</p>
-            <p>Logout content</p>
-          </Card>
-        );
+
       default:
         return null;
     }
@@ -97,6 +129,8 @@ const ProfilePage = () => {
       <div className="mx-auto max-w-screen-2xl sm:h-auto md:h-[70px] px-10">
         <div className="text-profile">
           <div className="text-profile p-4">
+        
+
             <Row gutter={16}>
               <Col span={6}>
                 <Card className="rounded-3xl w-full">
@@ -176,15 +210,29 @@ const ProfilePage = () => {
                         </li>
                         <li>
                           <a
-                            href="javascript:;"
-                            onClick={() => setSelectedMenu("logout")}
+                            href="#"
+                            onClick={showConfirm}
                             className={`p-3 rounded-lg items-center inline-flex w-full ${
                               selectedMenu === "logout" ? "bg-blue-200" : ""
                             } hover:bg-gray-100`}
                           >
                             <div className="h-5 items-center gap-3 flex">
                               <div className="relative">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.496 21H6.5c-1.105 0-2-1.151-2-2.571V5.57c0-1.419.895-2.57 2-2.57h7M16 15.5l3.5-3.5L16 8.5m-6.5 3.496h10"/></svg>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="1.5"
+                                    d="M13.496 21H6.5c-1.105 0-2-1.151-2-2.571V5.57c0-1.419.895-2.57 2-2.57h7M16 15.5l3.5-3.5L16 8.5m-6.5 3.496h10"
+                                  />
+                                </svg>
                               </div>
                               <h2 className="text-gray-500 text-sm font-medium leading-snug">
                                 ออกจากระบบ
@@ -203,6 +251,7 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
+
       <Modal
         open={open}
         title=""
