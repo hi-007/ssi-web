@@ -7,6 +7,10 @@ import Group6 from "../../assets/img/Group6.png";
 import { FaFacebook, FaTwitter, FaWallet } from "react-icons/fa";
 import { RiGovernmentLine } from "react-icons/ri";
 import Card2 from "../../components/Card2";
+import Verifiable from "../../assets/img/Verifiable.png"; // Import your PNG image
+import Center from "../../assets/img/Center.png"; // Import your PNG image
+import Facebook from "../../assets/img/Facebook.png"; // Import your PNG image
+import X from "../../assets/img/X.png"; // Import your PNG image
 
 const ProfilePageVerify = () => {
   const [selectedMenu, setSelectedMenu] = useState("profile");
@@ -32,26 +36,26 @@ const ProfilePageVerify = () => {
   const cards = [
     {
       id: 1,
-      icon: <FaWallet size={24} />,
+      icon: <img src={Verifiable} alt="Verifiable" className="h-6 w-6" />,
       title: "ขอผ่าน Verifiable Credentials",
       description:
         "สแกน QR Code ผ่าน Wallet Pass Application เพื่อเพิ่ม Verifiable Credentials",
     },
     {
       id: 2,
-      icon: <RiGovernmentLine size={24} />,
+      icon: <img src={Center} alt="Center" className="h-6 w-6" />,
       title: "เข้ามาติดต่อที่ส่วนกลาง",
       description: "เข้ามาติดต่อเจ้าหน้าที่ที่สำนักงานใหญ่",
     },
     {
       id: 3,
-      icon: <FaFacebook size={24} />,
+      icon: <img src={Facebook} alt="Facebook" className="h-6 w-6" />,
       title: "ติดต่อผ่านช่องทาง Facebook",
       description: "ติดต่อผ่านเจ้าหน้าที่ทาง Facebook",
     },
     {
       id: 4,
-      icon: <FaTwitter size={24} />,
+      icon: <img src={X} alt="X" className="h-6 w-6" />,
       title: "ติดต่อผ่านช่องทาง Twitter",
       description: "ติดต่อผ่านเจ้าหน้าที่ทาง Twitter",
     },
@@ -114,7 +118,7 @@ const ProfilePageVerify = () => {
                     ต้องการขอผ่านช่องทางใด
                   </p>
 
-                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                     {cards.map((card) => (
                       <Card2
                         key={card.id}
