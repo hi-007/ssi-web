@@ -1,5 +1,6 @@
 // src/pages/ProfilePage.jsx
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { Col, Row, Card, Modal, Space, QRCode, Form, Spin } from "antd";
 import Avatarprofile from "@/assets/img/Avatarprofile.png";
@@ -10,7 +11,6 @@ import {
   deleteConnection,
   sendOffer,
 } from "@/utils/agent";
-
 const ProfilePage = () => {
   //CALL VARIABLE FROM ENV
   const AgentUrl = import.meta.env.VITE_ISSUER_API;
@@ -35,7 +35,7 @@ const ProfilePage = () => {
   const [isQrSuccess, setIsQrSuccess] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async () => {
     setIndex(0);
     invite();
   };
@@ -438,11 +438,19 @@ const credentialAbandon = () => {
               </div>
             </div>
             ) : index === 2 ? (
+              <div className="flex flex-col items-center justify-center">
+              <div className="relative">
               <img
                 src={approvedAnimationGif}
                 alt="Approved"
                 style={{ width: 256, height: 256 }}
               />
+              </div>
+              <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px] mt-5">
+                <p>ออกเอกสารใบอนุญาตสำเร็จ</p>
+              </div>
+            </div>
+              
             ) : (
               ""
             )}
