@@ -26,7 +26,7 @@ const App = () => {
         <Router>
             <Routes>
                 <Route element={<LoginLayoutIssue />}>
-                    <Route path="/loginPageIssue" element={<LoginPageIssue />} />
+                    <Route path="/" element={<LoginPageIssue />} />
                     <Route element={<AuthenticatedLayoutIssue />}>
                         <Route path="/home" element={<HomePage />} />
                         <Route path="/organization-info" element={<OrganizationInfoPage />} />
@@ -36,8 +36,8 @@ const App = () => {
                         <Route path="/issuer" element={<ProfilePage />} />
                     </Route>
                 </Route>
-                <Route element={<LoginLayoutVerify />}>
-                    <Route path="/loginPageVerify" element={<LoginPageVerify />} />
+                {/* <Route element={<LoginLayoutVerify />}>
+                    <Route path="/" element={<LoginPageVerify />} />
                     <Route element={<AuthenticatedLayoutVerify />}>
                         <Route path="/homeverify" element={<HomePageVerify />} />
                         <Route path="/organization-infoverify" element={<OrganizationInfoPageVerify />} />
@@ -45,7 +45,7 @@ const App = () => {
                         <Route path="/faqverify" element={<FAQPageVerify />} />
                         <Route path="/profileverify" element={<ProfilePageVerify />} />
                     </Route>
-                </Route>
+                </Route> */}
             </Routes>
         </Router>
     );
