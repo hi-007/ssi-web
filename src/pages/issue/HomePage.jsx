@@ -1,6 +1,4 @@
 // src/pages/HomePage.jsx
-
-import { Col, Row } from "antd";
 import Group1 from "@/assets/img/Group1.png"
 import Group3 from "@/assets/img/Group3.png"
 import Group7 from "@/assets/img/Group7.png"

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { Col, Row, Card, Modal, Space, QRCode, Form, Spin } from "antd";
-import Avatarprofile from "@/assets/img/Avatarprofile.png";
+import Avatarprofile from "@/assets/img/Avatarprofile.jpg";
 import approvedAnimationGif from "@/assets/img/success.gif";
 import {
   createInvitation,
@@ -101,22 +101,23 @@ const credentialAbandon = () => {
   useEffect(() => {
     if (lastMessage !== null) {
       const data = JSON.parse(lastMessage.data);
-      if (data["topic"] != "ping") {
+      console.log('ping data: ', data);
+      if (data.topic != "ping") {
         console.log(data);
       }
-      if (data["topic"] === "connections") {
-        const state = data["payload"]["state"];
-        const conid = data["payload"]["connection_id"];
+      if (data.topic === "connections") {
+        const state = data.payload.state;
+        const conid = data.payload.connection_id;
         if (state == "active" && conid == connection_id) {
           console.log("Try to send credential offer.");
           sendCredentialOffer();
         }
       }
       if (
-        data["topic"] === "issue_credential" &&
-        connection_id === data["payload"]["connection_id"]
+        data.topic === "issue_credential" &&
+        connection_id === data.payload.connection_id
       ) {
-        const state = data["payload"]["state"];
+        const state = data.payload.state;
         if (state === "request_received") {
           //setCredExId(data['payload']['credential_exchange_id'])
         }
@@ -232,7 +233,7 @@ const credentialAbandon = () => {
                 <p className="py-2">อีเมล</p>
               </div>
               <div class="flex-initial w-32 ...">
-                <p className="py-2">วีระพล จงจำรัส</p>
+                <p className="py-2">หัสนัย ณ พัทลุง</p>
                 <p className="py-2">2034 0051 00000</p>
                 <p className="py-2">แอดมิน</p>
                 <p className="py-2">สำนักงานใหญ่</p>
@@ -276,9 +277,9 @@ const credentialAbandon = () => {
                   <div>
                     <div className="text-center mt-4">
                       <h2 className="text-xl font-semibold text-gray-900">
-                        วีระพล จงจำรัส
+                      หัสนัย ณ พัทลุง
                       </h2>
-                      <p className="text-gray-400">example@mail.com</p>
+                      <p className="text-gray-400">hassanai@vertex.com</p>
                       <span className="bg-[#1A3D93] text-white text-sm px-3 py-1 rounded-full mt-2 inline-block">
                         ผู้ดูแลระบบ
                       </span>
