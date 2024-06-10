@@ -36,7 +36,7 @@ const App = () => {
                         <Route path="/issuer" element={<ProfilePage />} />
                     </Route>
                 </Route>
-                {/* <Route element={<LoginLayoutVerify />}>
+                <Route element={<LoginLayoutVerify />}>
                     <Route path="/" element={<LoginPageVerify />} />
                     <Route element={<AuthenticatedLayoutVerify />}>
                         <Route path="/homeverify" element={<HomePageVerify />} />
@@ -45,7 +45,7 @@ const App = () => {
                         <Route path="/faqverify" element={<FAQPageVerify />} />
                         <Route path="/profileverify" element={<ProfilePageVerify />} />
                     </Route>
-                </Route> */}
+                </Route>
             </Routes>
         </Router>
     );
