@@ -43,7 +43,7 @@ const HomePageVerify = () => {
           </div>
         </div>
         <div className="flex justify-center bg-white pt-8 font-sarabun font-[700] text-[32px] text-[#1A3D93]">
-          Service
+          บริการ
         </div>
         <div className="flex h-[300px] px-[10%] w-full justify-between gap-10 items-center bg-white">
           <div
@@ -53,14 +53,14 @@ const HomePageVerify = () => {
               navigate("/profileverify");
             }}
           >
-            <img src={verify1} alt="home3"/>
+            <img src={verify1} alt="home3" />
             <p className="font-sarabun text-[20px] font-[700] text-[#1A3D93]">ระบบการลา</p>
           </div>
           <div
             className="w-[412px] h-[234px] border-[1px] border-[#E6E6E6] rounded-[10px] flex flex-col gap-4 justify-center items-center hover:bg-slate-100 cursor-pointer"
             style={{ boxShadow: "-2px 4px 12px 0px #D9D9D933" }}
           >
-            <img src={verify2} alt="home7" />
+            <img src={verify2} alt="home7"/>
             <p className="font-sarabun text-[20px] font-[700] text-[#1A3D93]">ขอใช้พื้นที่ส่วนกลาง</p>
           </div>
           <div

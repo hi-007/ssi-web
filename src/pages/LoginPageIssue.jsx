@@ -42,7 +42,7 @@ const LoginPageIssue = () => {
               </a>
 
               <h1 className="my-8 text-xl font-normal text-[#03194F] sm:text-3xl md:text-4xl">
-                เข้าสู่ระบบ (เจ้าหน้าที่)
+                เข้าสู่ระบบ
               </h1>
 
               <form action="" class=" ">
