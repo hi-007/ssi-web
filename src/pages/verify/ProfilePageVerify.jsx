@@ -51,10 +51,16 @@ const ProfilePageVerify = () => {
   const [connection_id, setConnectionId] = useState("");
   const [loading, setLoading] = useState(false);
   const [abandon, setAbandon] = useState(false);
-
+  const [leaveType, setLeaveType] = useState();
   const [selectedMenu, setSelectedMenu] = useState("profile");
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
+
+  useEffect(()=>{
+    console.log('current index =', index);
+  },[index])
+
+  const Predicates = [];
 
   const getStart = async () => {
     setStart(false);
@@ -424,12 +430,14 @@ const ProfilePageVerify = () => {
                         ]}
                         className="mt-5"
                       >
-                        <Select placeholder="เลือกประเภทการลา">
+                        <Select placeholder="เลือกประเภทการลา" 
+                          onChange={(value)=>{
+                            setLeaveType(value);
+                          }}>
+                          <Option value="sick">ลาป่วย</Option>
                           <Option value="annual">ลาพักร้อน</Option>
                           <Option value="personal">ลากิจ</Option>
-                          <Option value="sick">ลาป่วย</Option>
                           <Option value="maternity">ลาคลอดบุตร</Option>
-                          {/* Add more options as needed */}
                         </Select>
                       </Form.Item>
 
@@ -535,29 +543,32 @@ const ProfilePageVerify = () => {
                           </div>
                         ) : null}
                       </Form.Item> */}
+                      {leaveType === 'sick' && 
                       <div className="grid grid-cols-12 px-5 items-center rounded-lg">
-                        <div className="col-span-7">
-                          <p>• ใบรับรองแพทย์</p>
-                        </div>
-                        <div className="col-span-5 flex justify-end">
-                          <button
-                            onClick={() => {
-                              getStart();
-                              showModal();
-                              // setIndex(1); //Mock
-                            }}
-                            type="button"
-                            disabled={isConfirmed}
-                            className={`py-2 px-5 text-sm rounded-full text-white text-body font-light text-center shadow-xs transition-all duration-500 ${
-                              !isConfirmed
-                                ? "bg-[#1A3D93] cursor-pointer hover:bg-indigo-700"
-                                : "bg-gray-400 cursor-not-allowed"
-                            }`}
-                          >
-                            Verify Credentials
-                          </button>
-                        </div>
+                      <div className="col-span-7">
+                        <p><span className="text-red-500">*</span> ใบรับรองแพทย์</p>
                       </div>
+                      <div className="col-span-5 flex justify-end">
+                        <button
+                          onClick={() => {
+                            getStart();
+                            showModal();
+                            // setIndex(1); //Mock
+                          }}
+                          type="button"
+                          disabled={isConfirmed}
+                          className={`py-2 px-5 text-sm rounded-full text-white text-body font-light text-center shadow-xs transition-all duration-500 ${
+                            !isConfirmed
+                              ? "bg-[#1A3D93] cursor-pointer hover:bg-indigo-700"
+                              : "bg-gray-400 cursor-not-allowed"
+                          }`}
+                        >
+                          Verify Credentials
+                        </button>
+                      </div>
+                    </div>
+                      }
+                      
                     </Card>
                     <div class="flex justify-end mt-4">
                       <div>

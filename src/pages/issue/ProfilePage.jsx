@@ -196,44 +196,48 @@ const credentialAbandon = () => {
     });
   };
 
-  const renderCardContent = () => {
-    switch (selectedMenu) {
-      case "profile":
-        return (
-          <div>
-            <Card
-              title={
-                <>
-                  <p className="text-md font-semibold text-[#9E9E9E]">
-                    ข้อมูลของฉัน
-                  </p>
-                </>
-              }
-              bordered={false}
-              className="rounded-3xl w-full"
-              extra={
-                <button
-                  className="py-1.5 px-6 text-sm rounded-full bg-[#1A3D93] text-white cursor-pointer text-body font-light text-center shadow-xs transition-all duration-500 hover:bg-indigo-700"
-                >
-                  แก้ไข
-                </button>
-              }
-            >
-              <div class="flex">
-                <div class="flex-initial w-64 font-normal text-[#9E9E9E] text-md">
-                  <p className="py-2 font-bold">ชื่อ-นามสกุล</p>
-                  <p className="py-2 font-bold">รหัสผู้ป่วย</p>
-                  <p className="py-2 font-bold">เบอร์โทรศัพท์ (มือถือ)</p>
-                  <p className="py-2 font-bold">อีเมล</p>
-                </div>
-                <div class="flex-initial w-32 font-normal text-md">
-                  <p className="py-2">หัสนัย ณ พัทลุง</p>
-                  <p className="py-2">2034 0051 00000</p>
-                  <p className="py-2">09-4311-5619</p>
-                  <p className="py-2">hassanai@vertex.com</p>
-                </div>
-              </div>
-            </Card>
+    const renderCardContent = () => {
+        switch (selectedMenu) {
+            case "profile":
+                return (
+                    <div>
+                        <Card
+                            title={
+                                <>
+                                    <p className="text-md font-semibold text-[#9E9E9E]">
+                                        ข้อมูลของฉัน
+                                    </p>
+                                </>
+                            }
+                            bordered={false}
+                            className="rounded-3xl w-full"
+                            extra={
+                                <button className="py-1.5 px-6 text-sm rounded-full bg-[#1A3D93] text-white cursor-pointer text-center shadow-xs transition-all duration-500 hover:bg-indigo-700 font-roboto">
+                                    แก้ไข
+                                </button>
+                            }
+                        >
+                            <div class="flex">
+                                <div class="flex-initial w-64 font-normal text-[#9E9E9E] text-md">
+                                    <p className="py-2 font-bold">
+                                        ชื่อ-นามสกุล
+                                    </p>
+                                    <p className="py-2 font-bold">
+                                        รหัสผู้ป่วย
+                                    </p>
+                                    <p className="py-2 font-bold">
+                                        เบอร์โทรศัพท์ (มือถือ)
+                                    </p>
+                                    <p className="py-2 font-bold">อีเมล</p>
+                                </div>
+                                <div class="flex-initial w-32 font-normal text-md">
+                                    <p className="py-2">หัสนัย ณ พัทลุง</p>
+                                    <p className="py-2">2034 0051 00000</p>
+                                    <p className="py-2">09-4311-5619</p>
+                                    <p className="py-2">hassanai@vertex.com</p>
+                                </div>
+                            </div>
+                        </Card>
 
             <Card
               title={
@@ -269,42 +273,43 @@ const credentialAbandon = () => {
                   <p class="py-2">2 กุมภาพันธ์ 2566</p>
                 </div>
 
-                <div class="grid grid-cols-1 gap-2 items-center justify-items-end">
-                  <button class="bg-[#1A3D93] text-white px-4 py-1 w-auto rounded-full font-roboto"
-                   onClick={() => {
-                    showModal();
-                    handleSubmit();
-                  }}
-                  type="button"
-                  >
-                    ขอใบรับรองแพทย์ผ่าน VC
-                  </button>
-                  <button class="bg-[#A6A6A6] text-white px-4 py-1 w-auto rounded-full font-roboto">
-                    หมดอายุ
-                  </button>
-                  <button class="bg-[#A6A6A6] text-white px-4 py-1 w-auto rounded-full font-roboto">
-                    หมดอายุ
-                  </button>
-                  <button class="bg-[#A6A6A6] text-white px-4 py-1 w-auto rounded-full font-roboto">
-                    หมดอายุ
-                  </button>
-                </div>
-              </div>
-            </Card>
-          </div>
-        );
-      case "settings":
-        return (
-          <Card
-            title="Settings"
-            bordered={false}
-            className="rounded-3xl w-full"
-          >
-            <p>Settings content</p>
-            <p>Settings content</p>
-            <p>Settings content</p>
-          </Card>
-        );
+                                <div class="grid grid-cols-1 gap-2 items-center justify-items-end mt-8">
+                                    <button
+                                        class="bg-[#1A3D93] text-white px-4 py-1 w-auto rounded-full font-roboto"
+                                        onClick={() => {
+                                            showModal();
+                                            handleSubmit();
+                                        }}
+                                        type="button"
+                                    >
+                                        ขอใบรับรองแพทย์ผ่าน VC
+                                    </button>
+                                    <button class="bg-[#A6A6A6] text-white px-4 py-1 w-auto rounded-full font-roboto">
+                                        หมดอายุ
+                                    </button>
+                                    <button class="bg-[#A6A6A6] text-white px-4 py-1 w-auto rounded-full font-roboto">
+                                        หมดอายุ
+                                    </button>
+                                    <button class="bg-[#A6A6A6] text-white px-4 py-1 w-auto rounded-full font-roboto">
+                                        หมดอายุ
+                                    </button>
+                                </div>
+                            </div>
+                        </Card>
+                    </div>
+                );
+            case "settings":
+                return (
+                    <Card
+                        title="Settings"
+                        bordered={false}
+                        className="rounded-3xl w-full"
+                    >
+                        <p>Settings content</p>
+                        <p>Settings content</p>
+                        <p>Settings content</p>
+                    </Card>
+                );
 
       default:
         return null;
