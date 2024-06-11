@@ -45,6 +45,7 @@ const ProfilePageVerify = () => {
   const AgentKey = import.meta.env.VITE_VERIFIER_KEY;
   const CredDefId = import.meta.env.VITE_TOURIST_GUIDE_LICENSE_CREDDEFS_ID;
   const { lastMessage } = useWebSocket(`${AgentWss}?apikey=${AgentKey}`);
+  const RequiredAttributes = ["patient_birth_date"];
   const [start, setStart] = useState(true);
   const [index, setIndex] = useState(0);
   const [qrLink, setQrLink] = useState("");
@@ -55,6 +56,8 @@ const ProfilePageVerify = () => {
   const [selectedMenu, setSelectedMenu] = useState("profile");
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
+
+  const Predicates = [];
 
   const getStart = async () => {
     setStart(false);
