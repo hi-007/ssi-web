@@ -36,6 +36,7 @@ import Verifiable from "../../assets/img/Verifiable.png"; // Import your PNG ima
 import Center from "../../assets/img/Center.png"; // Import your PNG image
 import Facebook from "../../assets/img/Facebook.png"; // Import your PNG image
 import X from "../../assets/img/X.png"; // Import your PNG image
+import approvedAnimationGif from "@/assets/img/success.gif";
 const { TextArea } = Input;
 const { Option } = Select;
 const ProfilePageVerify = () => {
@@ -57,6 +58,7 @@ const ProfilePageVerify = () => {
 
   const getStart = async () => {
     setStart(false);
+    setIndex(0);
     invite();
   };
 
@@ -67,6 +69,7 @@ const ProfilePageVerify = () => {
     setQrLink(inv["invitation_url"]);
     console.log('invitation_url', qrLink);
     setLoading(false);
+    setIndex((i) => i + 1);
   };
 
   const requestPresentation = async () => {
@@ -115,6 +118,7 @@ const ProfilePageVerify = () => {
     setFormValues(revealed);
     //setIndex(2)
     setLoading(false);
+    setIndex((i) => i + 1);
   };
 
   const showModal = () => {
@@ -648,7 +652,7 @@ const ProfilePageVerify = () => {
                   />
                 </div>
                 <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px] mt-5">
-                  <p>ออกเอกสารใบอนุญาตสำเร็จ</p>
+                  <p>ยืนยันเอกสารสำเร็จ</p>
                 </div>
               </div>
             ) : (

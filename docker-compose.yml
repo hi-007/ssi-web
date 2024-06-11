@@ -2,11 +2,11 @@ version: '3'
 
 services:
   ssi-issuer:
-    image: navinsbp/ssi-web-verifier-demo:0.2
+    image: navinsbp/ssi-web-verifier-demo:0.3
     ports:
       - "8080:8080"
   
   ssi-verifier:
-    image: navinsbp/ssi-web-verifier-demo:0.2
+    image: navinsbp/ssi-web-verifier-demo:0.3
     ports:
       - "8081:8080"

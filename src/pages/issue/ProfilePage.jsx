@@ -140,7 +140,7 @@ const credentialAbandon = () => {
   useEffect(() => {
     if (lastMessage !== null) {
       const data = JSON.parse(lastMessage.data);
-      console.log('ping data: ', data);
+      console.log("ping data: ", data);
       if (data.topic != "ping") {
         console.log(data);
       }
@@ -227,10 +227,10 @@ const credentialAbandon = () => {
         console.log("Cancel");
       },
       okButtonProps: {
-        className: 'bg-blue-900 hover:bg-blue-700 text-white',
+        className: "bg-blue-900 hover:bg-blue-700 text-white",
       },
       cancelButtonProps: {
-        className: 'bg-gray-100 hover:bg-gray-300 text-gray-700',
+        className: "bg-gray-100 hover:bg-gray-300 text-gray-700",
       },
     });
   };
@@ -239,48 +239,98 @@ const credentialAbandon = () => {
     switch (selectedMenu) {
       case "profile":
         return (
-          <Card
-            title={
-              <>
-                <p className="text-md font-semibold text-[#9E9E9E]">
-                  ข้อมูลของฉัน
-                </p>
-              </>
-            }
-            bordered={false}
-            className="rounded-3xl w-full"
-            extra={
-              <button
-                onClick={() => {
-                  showModal();
-                  handleSubmit();
-                }}
-                type="button"
-                className="py-2.5 px-6 text-sm rounded-full bg-[#1A3D93] text-white cursor-pointer text-body font-light text-center shadow-xs transition-all duration-500 hover:bg-indigo-700"
-              >
-                สร้าง Verifiable Credentials
-              </button>
-            }
-          >
-            <div class="flex">
-              <div class="flex-initial w-64 font-normal text-[#9E9E9E] text-md">
-                <p className="py-2">ชื่อ-นามสกุล</p>
-                <p className="py-2">รหัสพนักงาน</p>
-                <p className="py-2">ตำแหน่ง</p>
-                <p className="py-2">สังกัด</p>
-                <p className="py-2">เบอร์โทรศัพท์ (มือถือ)</p>
-                <p className="py-2">อีเมล</p>
+          <div>
+            <Card
+              title={
+                <>
+                  <p className="text-md font-semibold text-[#9E9E9E]">
+                    ข้อมูลของฉัน
+                  </p>
+                </>
+              }
+              bordered={false}
+              className="rounded-3xl w-full"
+              extra={
+                <button
+                  className="py-1.5 px-6 text-sm rounded-full bg-[#1A3D93] text-white cursor-pointer text-body font-light text-center shadow-xs transition-all duration-500 hover:bg-indigo-700"
+                >
+                  แก้ไข
+                </button>
+              }
+            >
+              <div class="flex">
+                <div class="flex-initial w-64 font-normal text-[#9E9E9E] text-md">
+                  <p className="py-2 font-bold">ชื่อ-นามสกุล</p>
+                  <p className="py-2 font-bold">รหัสผู้ป่วย</p>
+                  <p className="py-2 font-bold">เบอร์โทรศัพท์ (มือถือ)</p>
+                  <p className="py-2 font-bold">อีเมล</p>
+                </div>
+                <div class="flex-initial w-32 font-normal text-md">
+                  <p className="py-2">หัสนัย ณ พัทลุง</p>
+                  <p className="py-2">2034 0051 00000</p>
+                  <p className="py-2">09-4311-5619</p>
+                  <p className="py-2">hassanai@vertex.com</p>
+                </div>
               </div>
-              <div class="flex-initial w-32 ...">
-                <p className="py-2">หัสนัย ณ พัทลุง</p>
-                <p className="py-2">2034 0051 00000</p>
-                <p className="py-2">แอดมิน</p>
-                <p className="py-2">สำนักงานใหญ่</p>
-                <p className="py-2">09-4311-5619</p>
-                <p className="py-2">example@mail.com</p>
+            </Card>
+
+            <Card
+              title={
+                <>
+                  <p className="text-md font-semibold text-[#9E9E9E]">
+                    ข้อมูลการรักษา
+                  </p>
+                </>
+              }
+              bordered={false}
+              className="rounded-3xl w-full mt-5"
+            >
+              <div class="grid grid-cols-3 gap-10">
+                <div class="font-normal text-[#9E9E9E] text-md">
+                  <p class="py-2 font-bold">ประเภทการรักษา</p>
+                  <p class="py-2 font-bold">
+                    วัคซีนป้องกันโรคไวรัสตับอักเสบบี (HB)
+                  </p>
+                  <p class="py-2 font-bold">
+                    วัคซีนรวมป้องกันโรคหัด-คางทูม-หัดเยอรมัน
+                  </p>
+                  <p class="py-2 font-bold">
+                    วัคซีนป้องกันโรคโปลิโอชนิดรับประทาน (OPV)
+                  </p>
+                  <p class="py-2 font-bold">วัคซีนป้องกันวัณโรค (BCG)</p>
+                </div>
+
+                <div class="text-[#8F90A6]">
+                  <p class="py-2 font-bold text-[#9E9E9E]">วันที่รับการรักษา</p>
+                  <p class="py-2">20 พฤษภาคม 2566</p>
+                  <p class="py-2">12 กรกฎาคม 2567</p>
+                  <p class="py-2">5 มีนาคม 2566</p>
+                  <p class="py-2">2 กุมภาพันธ์ 2566</p>
+                </div>
+
+                <div class="grid grid-cols-1 gap-2 items-center justify-items-end">
+                  <button class="bg-[#1A3D93] text-white px-4 py-1 w-auto rounded-full font-roboto"
+                   onClick={() => {
+                    showModal();
+                    handleSubmit();
+                  }}
+                  type="button"
+                  >
+                    ขอใบรับรองแพทย์ผ่าน VC
+                  </button>
+                  <button class="bg-[#A6A6A6] text-white px-4 py-1 w-auto rounded-full font-roboto">
+                    หมดอายุ
+                  </button>
+                  <button class="bg-[#A6A6A6] text-white px-4 py-1 w-auto rounded-full font-roboto">
+                    หมดอายุ
+                  </button>
+                  <button class="bg-[#A6A6A6] text-white px-4 py-1 w-auto rounded-full font-roboto">
+                    หมดอายุ
+                  </button>
+                </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          </div>
         );
       case "settings":
         return (
@@ -305,8 +355,6 @@ const credentialAbandon = () => {
       <div className="mx-auto max-w-screen-2xl sm:h-auto md:h-[70px] px-10">
         <div className="text-profile">
           <div className="text-profile p-4">
-        
-
             <Row gutter={16}>
               <Col span={6}>
                 <Card className="rounded-3xl w-full">
@@ -316,7 +364,7 @@ const credentialAbandon = () => {
                   <div>
                     <div className="text-center mt-4">
                       <h2 className="text-xl font-semibold text-gray-900">
-                      หัสนัย ณ พัทลุง
+                        หัสนัย ณ พัทลุง
                       </h2>
                       <p className="text-gray-400">hassanai@vertex.com</p>
                       <span className="bg-[#1A3D93] text-white text-sm px-3 py-1 rounded-full mt-2 inline-block">
@@ -444,53 +492,48 @@ const credentialAbandon = () => {
               <div className="loader border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
             ) : index === 1 ? (
               <div className="flex flex-col items-center justify-center">
-              <div className="relative">
-                <QRCode
-                  type="svg"
-                  value={qrLink}
-                  size={256}
-                />
+                <div className="relative">
+                  <QRCode type="svg" value={qrLink} size={256} />
+                </div>
+                <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px] mt-5">
+                  <p>กรุณาสแกน QR Code บนแอพ Wallet Pass Application</p>
+                  <p className="text-[#8F90A6] text-[14px]">
+                    สแกน QR Code เพื่อเพิ่ม Verifiable Credentials
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px] mt-5">
-                <p>กรุณาสแกน QR Code บนแอพ Wallet Pass Application</p>
-                <p className="text-[#8F90A6] text-[14px]">
-                  สแกน QR Code เพื่อเพิ่ม Verifiable Credentials
-                </p>
-              </div>
-            </div>
             ) : index === 1 && loading ? (
               <div className="flex flex-col items-center justify-center">
-              <div className="relative">
-                <QRCode
-                  type="svg"
-                  value={qrLink}
-                  size={256}
-                  className={`${loading ? 'opacity-50' : ''}`}
-                />
-                {loading && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50">
-                    <div className="loader border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
-                  </div>
-                )}
+                <div className="relative">
+                  <QRCode
+                    type="svg"
+                    value={qrLink}
+                    size={256}
+                    className={`${loading ? "opacity-50" : ""}`}
+                  />
+                  {loading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50">
+                      <div className="loader border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px] mt-5">
+                  <p>โปรดรอสักครู่...</p>
+                </div>
               </div>
-              <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px] mt-5">
-                <p>โปรดรอสักครู่...</p>
-              </div>
-            </div>
             ) : index === 2 ? (
               <div className="flex flex-col items-center justify-center">
-              <div className="relative">
-              <img
-                src={approvedAnimationGif}
-                alt="Approved"
-                style={{ width: 256, height: 256 }}
-              />
+                <div className="relative">
+                  <img
+                    src={approvedAnimationGif}
+                    alt="Approved"
+                    style={{ width: 256, height: 256 }}
+                  />
+                </div>
+                <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px] mt-5">
+                  <p>ออกเอกสารใบอนุญาตสำเร็จ</p>
+                </div>
               </div>
-              <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px] mt-5">
-                <p>ออกเอกสารใบอนุญาตสำเร็จ</p>
-              </div>
-            </div>
-              
             ) : (
               ""
             )}
