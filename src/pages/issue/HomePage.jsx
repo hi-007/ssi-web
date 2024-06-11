@@ -65,7 +65,7 @@ const HomePage = () => {
             <img
               src={Group3}
               alt="home3"
-              className="w-full max-h-[200px]"
+              className="w-full"
             />
             <p className="mt-2 font-bold leading-5">
               การตรวจระดับไนตริกออกไซด์ ประเมินความเสี่ยง ภาวะหลอดลมอักเสบ FeNo
@@ -77,7 +77,7 @@ const HomePage = () => {
             <img
               src={Group7}
               alt="home7"
-              className="w-full max-h-[200px]"
+              className="w-full"
             />
             <p className="mt-2 font-bold leading-5">
               เปิด walk in ฉีดวัคซีนป้องกันโรคไข้หวัดใหญ่ สำหรับผู้ประกันตน
@@ -89,7 +89,7 @@ const HomePage = () => {
             <img
               src={Group8}
               alt="home8"
-              className="w-full max-h-[200px]"
+              className="w-full"
             />
             <p className="mt-2 font-bold leading-5">
               ตรวจสุขภาพ Health Up Celebration (Buy 1 Get 1)
