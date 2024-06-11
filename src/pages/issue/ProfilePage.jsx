@@ -17,12 +17,50 @@ const ProfilePage = () => {
   const AgentWss = import.meta.env.VITE_ISSUER_WSS;
   const AgentKey = import.meta.env.VITE_ISSUER_KEY;
   const CredDefId = import.meta.env.VITE_CREDDEF_GUIDE_LICENSE;
-  const [form] = Form.useForm();
+
   const [index, setIndex] = useState(0);
   const [qrLink, setQrLink] = useState("");
   const [connection_id, setConnectionId] = useState("");
   //    const [person, setPerson] = useState({})
   const [license, setLicense] = useState({});
+  const [credential, setCredentail] = useState({
+    'organization_address_state': 'd', 
+    'organization_address_line': 'd', 
+    'condition_note':'s', 
+    'id': 'd', 
+    'patient_gender': 'sd', 
+    'context': 'sd', 
+    'patient_name_family':'sd', 
+    'provenance_signature_data': "dss", 
+    'practitioner_name_given':'sd', 
+    'organization_address_postal_code': "ds", 
+    'organization_name': "ds", 
+    'patient_name_given': "d", 
+    'practitioner_id_value': "d", 
+    'patient_address_line': "sd", 
+    'condition_code_display': "ds", 
+    'patient_id_type': "d", 
+    'practitioner_name_prefix': "ds", 
+    'organization_address_district': "ds", 
+    'patient_address_county': "ds", 
+    'organization_address_city': "ds",  
+    'patient_id_value': "ds",  
+    'period_start': "ds",  
+    'patient_address_city': "ds",  
+    'practitioner_name_family': "ds",  
+    'patient_birth_date': "ds",  
+    'provenance_signature_time': "ds",  
+    'patient_name_prefix': "ds",  
+    'ondition_code': "ds",  
+    'organization_id_value': "ds",  
+    'practitioner_id_type': "ds",  
+    'patient_address_district': "ds",  
+    'patient_address_postal_code': "ds",  
+    'organization_address_county': "ds",  
+    'provenance_author': "ds",  
+    'period_end': "ds",  
+    'patient_address_state': "ds"
+  })
   const { lastMessage, readyState } = useWebSocket(
     `${AgentWss}?apikey=${AgentKey}`
   );
@@ -34,6 +72,7 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(false);
   const [isQrSuccess, setIsQrSuccess] = useState(false);
   const [open, setOpen] = useState(false);
+  const [form] = Form.useForm();
 
   const handleSubmit = async () => {
     setIndex(0);
@@ -70,7 +109,7 @@ const handleScanQr = async () => {
 
   const sendCredentialOffer = async () => {
     setLoading(true);
-    const offer = createOffer(connection_id, CredDefId, license);
+    const offer = createOffer(connection_id, CredDefId, credential);
     console.log(JSON.stringify(offer));
     const result = await sendOffer(AgentUrl, AgentKey, offer);
 
