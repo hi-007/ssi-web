@@ -281,6 +281,8 @@ export async function getRevealedAttrs(
                 headers: { "x-api-key": key, apikey: key },
             })
         );
+
+        console.log(response.data);
         if (response.data["state"] === "verified") {
             return response.data["presentation"]["requested_proof"][
                 "revealed_attrs"

@@ -116,13 +116,30 @@ const ProfilePageVerify = () => {
   };
 
   const credentialVerified = async (pres_ex_id) => {
-    //setLoading(true)
     const revealed = await getRevealedAttrs(AgentUrl, AgentKey, pres_ex_id);
-    setFormValues(revealed);
-    //setIndex(2)
+    //console.log(revealed)
+    //setFormValues(revealed);
     setLoading(false);
     setIndex((i) => i + 1);
   };
+
+  const setFormValues = (revealed) => {
+    /*if (revealed == null) {
+        form.setFieldsValue({
+            license_no: "",
+            region_id: "",
+            name_th: "",
+            gender: "",
+        });
+    } else {
+        form.setFieldsValue({
+            license_no: revealed["license_no"]["raw"],
+            region_id: revealed["region_id"]["raw"],
+            name_th: revealed["name_th"]["raw"],
+            gender: revealed["gender"]["raw"],
+        });
+    }*/
+};
 
   const showModal = () => {
     setOpen(true);
@@ -142,7 +159,7 @@ const ProfilePageVerify = () => {
   const [isConfirmed, setIsConfirmed] = useState(false);
 
   useEffect(() => {
-    if (lastMessage !== null) {
+    /*if (lastMessage !== null) {
         // Checking webhook event from verifier agent.
         const data = JSON.parse(lastMessage.data);
         console.log('ping data', data);
@@ -170,8 +187,40 @@ const ProfilePageVerify = () => {
                 credentialVerified(presentationExchangeId);
             }
         }
-    }
-}, [start, index, qrLink, lastMessage]);
+    }*/
+}, [start, index, qrLink]);
+
+useEffect(() => {
+  if (lastMessage !== null) {
+      // Checking webhook event from verifier agent.
+      const data = JSON.parse(lastMessage.data);
+      console.log('ping data', data);
+
+      // Accessing nested properties using data.x.y pattern
+      const topic = data?.topic;
+      const state = data?.payload?.state;
+      const connectionId = data?.payload?.connection_id;
+      const presentationExchangeId = data?.payload?.presentation_exchange_id;
+
+      if (topic === "connections") {
+          if (state === "active" && connection_id === connectionId) {
+              console.log("Try to request presentation.");
+              requestPresentation();
+          }
+      }
+      if (topic === "present_proof" && connection_id === connectionId) {
+          if (state === "request_sent") {
+              // Do something if request sent.
+          }
+          if (state === "abandoned") {
+              requestDeclined();
+          }
+          if (state === "verified") {
+              credentialVerified(presentationExchangeId);
+          }
+      }
+  }
+}, [lastMessage]);
 
 
   const cards = [
