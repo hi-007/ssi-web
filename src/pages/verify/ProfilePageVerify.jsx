@@ -1,5 +1,5 @@
 // src/pages/ProfilePage.jsx
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import {
@@ -24,6 +24,12 @@ import {
   getRevealedAttrs,
   sendPresentationRequest,
 } from "@/utils/agent";
+import {
+  CheckCircleFilled,
+  ExclamationCircleOutlined,
+  ExclamationCircleFilled,
+  QuestionCircleFilled,
+} from "@ant-design/icons";
 import { ImageConfig } from "../../config/ImageConfig";
 import th_TH from "antd/es/locale/th_TH";
 import { UploadOutlined } from "@ant-design/icons";
@@ -56,9 +62,14 @@ const ProfilePageVerify = () => {
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
 
-  useEffect(()=>{
-    console.log('current index =', index);
-  },[index])
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("current index =", index);
+  }, [index]);
 
   const Predicates = [];
 
@@ -73,7 +84,7 @@ const ProfilePageVerify = () => {
     const inv = await createInvitation(AgentUrl, AgentKey);
     setConnectionId(inv["connection_id"]);
     setQrLink(inv["invitation_url"]);
-    console.log('invitation_url', qrLink);
+    console.log("invitation_url", qrLink);
     setLoading(false);
     setIndex((i) => i + 1);
   };
@@ -119,12 +130,16 @@ const ProfilePageVerify = () => {
   };
 
   const credentialVerified = async (pres_ex_id) => {
-    //setLoading(true)
+    setLoading(true)
     const revealed = await getRevealedAttrs(AgentUrl, AgentKey, pres_ex_id);
     setFormValues(revealed);
-    //setIndex(2)
+    setIndex(2);
     setLoading(false);
-    setIndex((i) => i + 1);
+    setTimeout(() => {
+      setIsConfirmed(true);
+      setOpen(false);
+    }, 3000);
+    // setIndex((i) => i + 1);
   };
 
   const showModal = () => {
@@ -146,36 +161,35 @@ const ProfilePageVerify = () => {
 
   useEffect(() => {
     if (lastMessage !== null) {
-        // Checking webhook event from verifier agent.
-        const data = JSON.parse(lastMessage.data);
-        console.log('ping data', data);
+      // Checking webhook event from verifier agent.
+      const data = JSON.parse(lastMessage.data);
+      console.log("ping data", data);
 
-        // Accessing nested properties using data.x.y pattern
-        const topic = data?.topic;
-        const state = data?.payload?.state;
-        const connectionId = data?.payload?.connection_id;
-        const presentationExchangeId = data?.payload?.presentation_exchange_id;
+      // Accessing nested properties using data.x.y pattern
+      const topic = data?.topic;
+      const state = data?.payload?.state;
+      const connectionId = data?.payload?.connection_id;
+      const presentationExchangeId = data?.payload?.presentation_exchange_id;
 
-        if (topic === "connections") {
-            if (state === "active" && connection_id === connectionId) {
-                console.log("Try to request presentation.");
-                requestPresentation();
-            }
+      if (topic === "connections") {
+        if (state === "active" && connection_id === connectionId) {
+          console.log("Try to request presentation.");
+          requestPresentation();
         }
-        if (topic === "present_proof" && connection_id === connectionId) {
-            if (state === "request_sent") {
-                // Do something if request sent.
-            }
-            if (state === "abandoned") {
-                requestDeclined();
-            }
-            if (state === "verified") {
-                credentialVerified(presentationExchangeId);
-            }
+      }
+      if (topic === "present_proof" && connection_id === connectionId) {
+        if (state === "request_sent") {
+          // Do something if request sent.
         }
+        if (state === "abandoned") {
+          requestDeclined();
+        }
+        if (state === "verified") {
+          credentialVerified(presentationExchangeId);
+        }
+      }
     }
-}, [start, index, qrLink, lastMessage]);
-
+  }, [start, index, qrLink, lastMessage]);
 
   const cards = [
     {
@@ -430,10 +444,12 @@ const ProfilePageVerify = () => {
                         ]}
                         className="mt-5"
                       >
-                        <Select placeholder="เลือกประเภทการลา" 
-                          onChange={(value)=>{
+                        <Select
+                          placeholder="เลือกประเภทการลา"
+                          onChange={(value) => {
                             setLeaveType(value);
-                          }}>
+                          }}
+                        >
                           <Option value="sick">ลาป่วย</Option>
                           <Option value="annual">ลาพักร้อน</Option>
                           <Option value="personal">ลากิจ</Option>
@@ -543,32 +559,42 @@ const ProfilePageVerify = () => {
                           </div>
                         ) : null}
                       </Form.Item> */}
-                      {leaveType === 'sick' && 
-                      <div className="grid grid-cols-12 px-5 items-center rounded-lg">
-                      <div className="col-span-7">
-                        <p><span className="text-red-500">*</span> ใบรับรองแพทย์</p>
-                      </div>
-                      <div className="col-span-5 flex justify-end">
-                        <button
-                          onClick={() => {
-                            getStart();
-                            showModal();
-                            // setIndex(1); //Mock
-                          }}
-                          type="button"
-                          disabled={isConfirmed}
-                          className={`py-2 px-5 text-sm rounded-full text-white text-body font-light text-center shadow-xs transition-all duration-500 ${
-                            !isConfirmed
-                              ? "bg-[#1A3D93] cursor-pointer hover:bg-indigo-700"
-                              : "bg-gray-400 cursor-not-allowed"
-                          }`}
-                        >
-                          Verify Credentials
-                        </button>
-                      </div>
-                    </div>
-                      }
-                      
+                      {leaveType === "sick" && (
+                        <div className="grid grid-cols-12 px-5 items-center rounded-lg">
+                          <div className="col-span-7">
+                            <p>
+                              <span className="text-red-500">*</span>{" "}
+                              ใบรับรองแพทย์
+                            </p>
+                          </div>
+                          <div className="col-span-5 flex justify-end">
+                            {isConfirmed ? (
+                              <div className="flex items-center justify-center">
+                                <CheckCircleFilled
+                                  style={{ color: "green", fontSize: "32px" }}
+                                />
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  getStart();
+                                  showModal();
+                                  // setIndex(1); //Mock
+                                }}
+                                type="button"
+                                disabled={isConfirmed}
+                                className={`py-2 px-5 text-sm rounded-full text-white text-body font-light text-center shadow-xs transition-all duration-500 ${
+                                  !isConfirmed
+                                    ? "bg-[#1A3D93] cursor-pointer hover:bg-indigo-700"
+                                    : "bg-gray-400 cursor-not-allowed"
+                                }`}
+                              >
+                                Verify Credentials
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </Card>
                     <div class="flex justify-end mt-4">
                       <div>
@@ -583,7 +609,7 @@ const ProfilePageVerify = () => {
                       </div>
                       <div>
                         <button
-                          onClick={showModal}
+                          onClick={() => setShowConfirmModal(true)}
                           type="button"
                           disabled={!isConfirmed}
                           className={`py-2.5 px-6 text-sm rounded-full text-white text-body font-light text-center shadow-xs transition-all duration-500 ${
@@ -621,17 +647,14 @@ const ProfilePageVerify = () => {
             ) : index === 1 ? (
               <div className="flex flex-col items-center justify-center">
                 <div className="relative">
-                  <QRCode
-                    type="svg"
-                    value={qrLink}
-                    size={256}
-                  />
+                  <QRCode type="svg" value={qrLink} size={256} />
                 </div>
                 <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px] mt-5">
                   <p>กรุณาสแกน QR Code บนแอพ Wallet Pass Application</p>
                   <p className="text-[#8F90A6] text-[14px]">
                     สแกน QR Code เพื่อเพิ่ม Verifiable Credentials
                   </p>
+                  {/* <button onClick={() => credentialVerified()}>TEST</button> */}
                 </div>
               </div>
             ) : index === 1 && loading ? (
@@ -663,13 +686,99 @@ const ProfilePageVerify = () => {
                   />
                 </div>
                 <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px] mt-5">
-                  <p>ยืนยันเอกสารสำเร็จ</p>
+                  <p className="text-xl">ยืนยันเอกสารสำเร็จ</p>
                 </div>
               </div>
             ) : (
               ""
             )}
           </Space>
+        </div>
+      </Modal>
+      <Modal
+        open={showConfirmModal}
+        title=""
+        onOk={() => {
+          setShowConfirmModal(false);
+          setShowSuccessModal(true);
+        }}
+        onCancel={() => {
+          setShowConfirmModal(false);
+        }}
+        centered
+        width={500}
+        height={500}
+        footer={false}
+        transitionName=""
+        maskTransitionName=""
+      >
+        <div className="flex justify-center mb-4">
+          <QuestionCircleFilled
+            className="text-yellow-500"
+            style={{ fontSize: "100px" }}
+          />
+        </div>
+        <p className="text-center text-gray-700 mb-4 text-xl">
+          ยืนยันการบันทึกข้อมูล
+        </p>
+        <div className="flex justify-center mt-4">
+          <Button
+            type="primary"
+            onClick={() => {
+              setShowConfirmModal(false);
+              setShowSuccessModal(true);
+            }}
+            style={{ backgroundColor: "#1A3D93", color: "white" }}
+            className="hover:bg-[#1A3D93] px-4 py-2 rounded-md mr-4"
+          >
+            ยืนยัน
+          </Button>
+          <Button
+            onClick={() => {
+              setShowConfirmModal(false);
+            }}
+            className="bg-white text-[#1A3D93] border-[1.5px] border-[#1A3D93] px-4 py-2 rounded-md"
+          >
+            ยกเลิก
+          </Button>
+        </div>
+      </Modal>
+      <Modal
+        open={showSuccessModal}
+        title=""
+        onOk={() => {
+          setShowConfirmModal(false);
+          setShowSuccessModal(true);
+        }}
+        centered
+        width={500}
+        height={500}
+        footer={false}
+        transitionName=""
+  maskTransitionName=""
+      >
+        <div className="flex justify-center mb-4">
+          <CheckCircleFilled
+            className="text-green-600"
+            style={{ fontSize: "100px" }}
+          />
+        </div>
+        <p className="text-center text-gray-700 mb-4 text-xl">
+          บันทึกข้อมูลสำเร็จ
+        </p>
+        <div className="flex justify-center mt-4">
+          <Button
+            type="primary"
+            onClick={() => {
+              setShowConfirmModal(false);
+              setShowSuccessModal(false);
+              navigate("/homeverify");
+            }}
+            style={{ backgroundColor: "#1A3D93", color: "white" }}
+            className="hover:bg-[#1A3D93] px-4 py-2 rounded-md"
+          >
+            ตกลง
+          </Button>
         </div>
       </Modal>
     </>
