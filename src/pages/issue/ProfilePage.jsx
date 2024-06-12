@@ -22,7 +22,46 @@ const ProfilePage = () => {
   const [qrLink, setQrLink] = useState("");
   const [connection_id, setConnectionId] = useState("");
   //    const [person, setPerson] = useState({})
-  const [license, setLicense] = useState({});
+  const [credential, setCredentail] = useState({
+    organization_address_state: "กรุงเทพมหานคร",
+    organization_address_line: "1 ถนนโนวา",
+    condition_note:
+        "เป็นไข้สูง ควรพักผ่อนให้เพียงพอ งดทำงานเป็นเวลา 5-7 วัน",
+    id: "0129023",
+    patient_gender: "Male",
+    context: "https://ict.moph.go.th/MC",
+    patient_name_family: "ณ พัทลุง",
+    provenance_signature_data: "",
+    practitioner_name_given: "สมศักดิ์",
+    organization_address_postal_code: "10400",
+    organization_name: "Nova Hospital",
+    patient_name_given: "หัสนัย",
+    practitioner_id_value: "012345",
+    patient_address_line: "127/4 หมู่ที่ 1 ",
+    condition_code_display: "Not fit for work",
+    patient_id_type: "NI",
+    practitioner_name_prefix: "นายแพทย์",
+    organization_address_district: "พญาไท",
+    patient_address_county: "ประเทศไทย",
+    organization_address_city: "สามเสนใน",
+    patient_id_value: "1299300348981",
+    period_start: "2024-06-15T00:00:00Z",
+    patient_address_city: "ต.ปากน้ำ",
+    practitioner_name_family: "ศรีสุข",
+    patient_birth_date: "1980-01-01",
+    provenance_signature_time: "2024-06-15T17:20:10Z",
+    patient_name_prefix: "นาย",
+    ondition_code: "102499006",
+    organization_id_value: "54321",
+    practitioner_id_type: "MD",
+    patient_address_district: "เบตง",
+    patient_address_postal_code: "90160",
+    organization_address_county: "ประเทศไทย",
+    provenance_author: "นายแพทย์ สมศักดิ์ ศรีสุข",
+    period_end: "2024-06-20T23:59:59Z",
+    patient_address_state: "ยะลา",
+  });
+
   const { lastMessage, readyState } = useWebSocket(
     `${AgentWss}?apikey=${AgentKey}`
   );
@@ -70,7 +109,7 @@ const handleScanQr = async () => {
 
   const sendCredentialOffer = async () => {
     setLoading(true);
-    const offer = createOffer(connection_id, CredDefId, license);
+    const offer = createOffer(connection_id, CredDefId, credential);
     console.log(JSON.stringify(offer));
     const result = await sendOffer(AgentUrl, AgentKey, offer);
 

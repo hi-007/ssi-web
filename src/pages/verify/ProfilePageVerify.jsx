@@ -61,6 +61,15 @@ const ProfilePageVerify = () => {
   const [selectedMenu, setSelectedMenu] = useState("profile");
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
+  const RequiredAttributes = [
+    "id",
+    "patient_name_given", 
+    "patient_name_family",
+    "practitioner_name_given",
+    "practitioner_name_family",
+    "condition_note",
+    "organization_name"
+  ];
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -132,7 +141,7 @@ const ProfilePageVerify = () => {
   const credentialVerified = async (pres_ex_id) => {
     setLoading(true)
     const revealed = await getRevealedAttrs(AgentUrl, AgentKey, pres_ex_id);
-    setFormValues(revealed);
+    //setFormValues(revealed);
     setIndex(2);
     setLoading(false);
     setTimeout(() => {
