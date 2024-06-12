@@ -5,10 +5,13 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginLayoutIssue from './layouts/LoginLayoutIssue';
 import LoginLayoutVerify from './layouts/LoginLayoutVerify';
+import LoginLayoutEticket from './layouts/LoginLayoutEticket';
 import AuthenticatedLayoutIssue from './layouts/AuthenticatedLayoutIssue';
 import AuthenticatedLayoutVerify from './layouts/AuthenticatedLayoutVerify';
+import AuthenticatedLayoutEticket from './layouts/AuthenticatedLayoutEticket';
 import LoginPageIssue from './pages/LoginPageIssue';
 import LoginPageVerify from './pages/LoginPageVerify';
+import LoginPageEticket from './pages/LoginPageEticket';
 import HomePage from './pages/issue/HomePage';
 import OrganizationInfoPage from './pages/issue/OrganizationInfoPage';
 import NewsInfoPage from './pages/issue/NewsInfoPage';
@@ -20,6 +23,9 @@ import OrganizationInfoPageVerify from './pages/verify/OrganizationInfoPageVerif
 import NewsInfoPageVerify from './pages/verify/NewsInfoPageVerify';
 import FAQPageVerify from './pages/verify/FAQPageVerify';
 import ProfilePageVerify from './pages/verify/ProfilePageVerify';
+
+import HomePageEticket from './pages/e-ticket/issuer/HomePageEticket';
+import ProfilePageEticket from './pages/e-ticket/issuer/ProfilePageEticket';
 
 const App = () => {
     return (
@@ -44,6 +50,16 @@ const App = () => {
                         <Route path="/news-infoverify" element={<NewsInfoPageVerify />} />
                         <Route path="/faqverify" element={<FAQPageVerify />} />
                         <Route path="/profileverify" element={<ProfilePageVerify />} />
+                    </Route>
+                </Route>
+                <Route element={<LoginLayoutEticket />}>
+                    <Route path="/eticket" element={<LoginPageEticket/>} />
+                    <Route element={<AuthenticatedLayoutEticket />}>
+                        <Route path="/home-eticket" element={<HomePageEticket />} />
+                        <Route path="/organization-info-eticket" element={<OrganizationInfoPageVerify />} />
+                        <Route path="/news-info-eticket" element={<NewsInfoPageVerify />} />
+                        <Route path="/faq-eticket" element={<FAQPageVerify />} />
+                        <Route path="/profile-eticket" element={<ProfilePageEticket />} />
                     </Route>
                 </Route>
             </Routes>

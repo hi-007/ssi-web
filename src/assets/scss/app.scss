@@ -126,3 +126,24 @@
     font-weight: bold;
     font-size: 28px;
   }
+
+  .slider-container {
+    position: relative;
+  }
+  
+  .slick-dots {
+    position: absolute;
+    bottom: 20px; /* Adjust as needed */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%);
+    z-index: 1; /* Ensure dots are above the images */
+  }
+  
+  .slick-dots li {
+    margin: 0 5px;
+  }
+
+  .slick-dots li button:before {
+    color: white !important;
+    font-size: 10px;
+  }

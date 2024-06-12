@@ -16,6 +16,7 @@ import {
   Button,
   Select,
   ConfigProvider,
+  Calendar,
 } from "antd";
 import {
   createInvitation,
@@ -31,6 +32,7 @@ import {
   QuestionCircleFilled,
 } from "@ant-design/icons";
 import { ImageConfig } from "../../config/ImageConfig";
+import moment from "moment";
 import th_TH from "antd/es/locale/th_TH";
 import { UploadOutlined } from "@ant-design/icons";
 import Group6 from "../../assets/img/Group6.png";
@@ -58,17 +60,18 @@ const ProfilePageVerify = () => {
   const [loading, setLoading] = useState(false);
   const [abandon, setAbandon] = useState(false);
   const [leaveType, setLeaveType] = useState();
+  const [isAddLeave, setIsAddLeave] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState("profile");
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
   const RequiredAttributes = [
     "id",
-    "patient_name_given", 
+    "patient_name_given",
     "patient_name_family",
     "practitioner_name_given",
     "practitioner_name_family",
     "condition_note",
-    "organization_name"
+    "organization_name",
   ];
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -141,8 +144,17 @@ const ProfilePageVerify = () => {
   const credentialVerified = async (pres_ex_id) => {
     setLoading(true);
     const revealed = await getRevealedAttrs(AgentUrl, AgentKey, pres_ex_id);
-    console.log('revealedAttrs', revealed);
-    //setFormValues(revealed);
+    console.log("revealedAttrs", revealed);
+    // setFormValues(revealed);
+    form.setFieldsValue({
+      dates: [moment(), moment().add(7, "days")],
+      reason: revealed?.condition_note.raw,
+      given_by:
+        "นายแพทย์ " +
+        revealed?.practitioner_name_given.raw +
+        " " +
+        revealed?.practitioner_name_family.raw,
+    });
     setIndex(2);
     setLoading(false);
     setTimeout(() => {
@@ -430,19 +442,6 @@ const ProfilePageVerify = () => {
                       className="rounded-3xl w-full"
                     >
                       <p className="text-lg font-semibold">แบบฟอร์มการขอลา</p>
-
-                      {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                    {cards.map((card) => (
-                      <Card2
-                        key={card.id}
-                        icon={card.icon}
-                        title={card.title}
-                        description={card.description}
-                        isSelected={selectedCard === card.id}
-                        onClick={() => setSelectedCard(card.id)}
-                      />
-                    ))}
-                  </div> */}
                       <Form.Item
                         name="leaveType"
                         label="ประเภทการลา"
@@ -467,31 +466,96 @@ const ProfilePageVerify = () => {
                         </Select>
                       </Form.Item>
 
-                      <Form.Item
-                        name="dates"
-                        label="วันที่"
-                        rules={[
-                          {
-                            required: true,
-                            message: "โปรดกรอกข้อมูล",
-                          },
-                        ]}
-                      >
-                        <DatePicker.RangePicker placeholder="ระบุวันที่" />
-                      </Form.Item>
+                      {leaveType === "sick" && (
+                        <>
+                          <div className="grid grid-cols-12 items-center rounded-lg mb-5">
+                            <div className="col-span-7">
+                              <p>
+                                <span className="text-red-500 text-xs">*</span>{" "}
+                                ใบรับรองแพทย์
+                              </p>
+                            </div>
+                            <div className="col-span-5 flex justify-end">
+                              {isConfirmed ? (
+                                <div className="flex items-center justify-center">
+                                  <CheckCircleFilled
+                                    style={{ color: "green", fontSize: "32px" }}
+                                  />
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => {
+                                    getStart();
+                                    showModal();
+                                  }}
+                                  type="button"
+                                  disabled={isConfirmed}
+                                  className={`py-2 px-5 text-sm rounded-full text-white text-body font-light text-center shadow-xs transition-all duration-500 ${
+                                    !isConfirmed
+                                      ? "bg-[#1A3D93] cursor-pointer hover:bg-indigo-700"
+                                      : "bg-gray-400 cursor-not-allowed"
+                                  }`}
+                                >
+                                  Verify Credentials
+                                </button>
+                              )}
+                            </div>
+                          </div>
 
-                      <Form.Item
-                        name="reason"
-                        label="เหตุผลการลา"
-                        rules={[
-                          {
-                            required: true,
-                            message: "โปรดกรอกข้อมูล",
-                          },
-                        ]}
-                      >
-                        <TextArea rows={4} placeholder="ระบุเหตุผลการลา" />
-                      </Form.Item>
+                          <Form.Item
+                            name="dates"
+                            label="วันที่"
+                            rules={[
+                              {
+                                required: true,
+                                message: "โปรดกรอกข้อมูล",
+                              },
+                            ]}
+                          >
+                            <DatePicker.RangePicker
+                              placeholder="ระบุวันที่"
+                              disabled={!isConfirmed}
+                              readOnly
+                            />
+                          </Form.Item>
+
+                          <Form.Item
+                            name="reason"
+                            label="รายละเอียด"
+                            rules={[
+                              {
+                                required: true,
+                                message: "โปรดกรอกข้อมูล",
+                              },
+                            ]}
+                          >
+                            <TextArea
+                              rows={4}
+                              placeholder="รายละเอียด"
+                              disabled={!isConfirmed}
+                              readOnly
+                            />
+                          </Form.Item>
+
+                          <Form.Item
+                            name="given_by"
+                            label="ออกให้โดย"
+                            rules={[
+                              {
+                                required: true,
+                                message: "โปรดกรอกข้อมูล",
+                              },
+                            ]}
+                          >
+                            <Input
+                              type="text"
+                              placeholder="ออกให้โดย"
+                              disabled={!isConfirmed}
+                              readOnly
+                            />
+                          </Form.Item>
+                        </>
+                      )}
 
                       {/* <Form.Item
                         name="attachments"
@@ -569,42 +633,6 @@ const ProfilePageVerify = () => {
                           </div>
                         ) : null}
                       </Form.Item> */}
-                      {leaveType === "sick" && (
-                        <div className="grid grid-cols-12 px-5 items-center rounded-lg">
-                          <div className="col-span-7">
-                            <p>
-                              <span className="text-red-500">*</span>{" "}
-                              ใบรับรองแพทย์
-                            </p>
-                          </div>
-                          <div className="col-span-5 flex justify-end">
-                            {isConfirmed ? (
-                              <div className="flex items-center justify-center">
-                                <CheckCircleFilled
-                                  style={{ color: "green", fontSize: "32px" }}
-                                />
-                              </div>
-                            ) : (
-                              <button
-                                onClick={() => {
-                                  getStart();
-                                  showModal();
-                                  // setIndex(1); //Mock
-                                }}
-                                type="button"
-                                disabled={isConfirmed}
-                                className={`py-2 px-5 text-sm rounded-full text-white text-body font-light text-center shadow-xs transition-all duration-500 ${
-                                  !isConfirmed
-                                    ? "bg-[#1A3D93] cursor-pointer hover:bg-indigo-700"
-                                    : "bg-gray-400 cursor-not-allowed"
-                                }`}
-                              >
-                                Verify Credentials
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                      )}
                     </Card>
                     <div class="flex justify-end mt-4">
                       <div>
@@ -765,7 +793,7 @@ const ProfilePageVerify = () => {
         height={500}
         footer={false}
         transitionName=""
-  maskTransitionName=""
+        maskTransitionName=""
       >
         <div className="flex justify-center mb-4">
           <CheckCircleFilled
