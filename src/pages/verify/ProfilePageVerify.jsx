@@ -139,8 +139,9 @@ const ProfilePageVerify = () => {
   };
 
   const credentialVerified = async (pres_ex_id) => {
-    setLoading(true)
+    setLoading(true);
     const revealed = await getRevealedAttrs(AgentUrl, AgentKey, pres_ex_id);
+    console.log('revealedAttrs', revealed);
     //setFormValues(revealed);
     setIndex(2);
     setLoading(false);
