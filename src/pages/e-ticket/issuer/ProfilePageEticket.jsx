@@ -9,6 +9,10 @@ import EticketHome1 from "@/assets/img/EticketHome1.png";
 import EticketHome2 from "@/assets/img/EticketHome2.png";
 import EticketHome3 from "@/assets/img/EticketHome3.png";
 import Eye from "@/assets/svg/eye.svg";
+import IconImage from "@/assets/img/time.png";
+import IconImage2 from "@/assets/img/location.png";
+import IconImage3 from "@/assets/img/doc.png";
+import IconImage4 from "@/assets/img/armchair-outline.png";
 import {
   createInvitation,
   createOffer,
@@ -349,16 +353,20 @@ const credentialAbandon = () => {
                   >
                     <img src={Eye} />
                   </button>
-                  <button onClick={() => {
+                  <button
+                    onClick={() => {
                       setSelectedTicket(2);
                       setOpenSideBar(true);
-                    }}>
+                    }}
+                  >
                     <img src={Eye} />
                   </button>
-                  <button onClick={() => {
+                  <button
+                    onClick={() => {
                       setSelectedTicket(3);
                       setOpenSideBar(true);
-                    }}>
+                    }}
+                  >
                     <img src={Eye} />
                   </button>
                 </div>
@@ -381,6 +389,78 @@ const credentialAbandon = () => {
                           Bangkok Nights:
                           <br />A Symphony Under the Stars
                         </p>
+                        <div className="flex flex-col items-start p-4 rounded-lg shadow-sm w-full bg-gray-100 mt-4">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-full bg-gray-200">
+                              <img
+                                src={IconImage}
+                                alt="Icon"
+                                className="w-4 h-4 object-contain"
+                              />
+                            </div>
+                            <p className="text-sm text-gray-700">
+                              2 ธ.ค. 2566 - 7 ก.ย. 2567, 14.15
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-full bg-gray-200">
+                              <img
+                                src={IconImage2}
+                                alt="Icon"
+                                className="w-4 h-4 object-contain"
+                              />
+                            </div>
+                            <p className="text-sm text-gray-700">
+                              เมืองทองธานี
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-full bg-gray-200">
+                              <img
+                                src={IconImage3}
+                                alt="Icon"
+                                className="w-4 h-4 object-contain"
+                              />
+                            </div>
+                            <p className="text-sm text-gray-700">
+                              No. 510000531099
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-full bg-gray-200">
+                              <img
+                                src={IconImage4}
+                                alt="Icon"
+                                className="w-4 h-4 object-contain"
+                              />
+                            </div>
+                            <p className="text-sm text-gray-700">B2, BB49</p>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-start p-4 rounded-lg shadow-sm w-full bg-gray-100 mt-4">
+                          <div className="flex justify-between items-center w-full">
+                            <p className="text-sm text-gray-700">
+                              จำนวนทั้งหมด
+                            </p>
+                            <p className="text-sm font-bold text-gray-900">
+                              1 ใบ
+                            </p>
+                          </div>
+                        </div>
+                        <div className="absolute left-0 bottom-4 w-full border-t border-gray-300 pt-4">
+                          <div className="flex justify-end pr-4">
+                            <button
+                              className="bg-[#7A66D6] text-white px-4 py-2 w-auto rounded-full font-roboto hover:bg-[#6b5ac3] transition"
+                              onClick={() => {
+                                showModal();
+                                handleSubmit();
+                              }}
+                              type="button"
+                            >
+                              สร้าง Verifiable Credentials
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     )}
                     {selectedTicket === 2 && (
@@ -395,6 +475,78 @@ const credentialAbandon = () => {
                           <br />
                           Bangkok's Night Concert Extravaganza
                         </p>
+                        <div className="flex flex-col items-start p-4 rounded-lg shadow-sm w-full bg-gray-100 mt-4">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-full bg-gray-200">
+                            <img
+                                src={IconImage}
+                                alt="Icon"
+                                className="w-4 h-4 object-contain"
+                              />
+                            </div>
+                            <p className="text-sm text-gray-700">
+                              2 ธ.ค. 2566 - 7 ก.ย. 2567, 14.15
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-full bg-gray-200">
+                            <img
+                                src={IconImage2}
+                                alt="Icon"
+                                className="w-4 h-4 object-contain"
+                              />
+                            </div>
+                            <p className="text-sm text-gray-700">
+                              เมืองทองธานี
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-full bg-gray-200">
+                            <img
+                                src={IconImage3}
+                                alt="Icon"
+                                className="w-4 h-4 object-contain"
+                              />
+                            </div>
+                            <p className="text-sm text-gray-700">
+                              No. 510000531099
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-full bg-gray-200">
+                            <img
+                                src={IconImage4}
+                                alt="Icon"
+                                className="w-4 h-4 object-contain"
+                              />
+                            </div>
+                            <p className="text-sm text-gray-700">B2, BB49</p>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-start p-4 rounded-lg shadow-sm w-full bg-gray-100 mt-4">
+                          <div className="flex justify-between items-center w-full">
+                            <p className="text-sm text-gray-700">
+                              จำนวนทั้งหมด
+                            </p>
+                            <p className="text-sm font-bold text-gray-900">
+                              1 ใบ
+                            </p>
+                          </div>
+                        </div>
+                        <div className="absolute left-0 bottom-4 w-full border-t border-gray-300 pt-4">
+                          <div className="flex justify-end pr-4">
+                            <button
+                              className="bg-[#7A66D6] text-white px-4 py-2 w-auto rounded-full font-roboto hover:bg-[#6b5ac3] transition"
+                              onClick={() => {
+                                showModal();
+                                handleSubmit();
+                              }}
+                              type="button"
+                            >
+                              สร้าง Verifiable Credentials
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     )}
                     {selectedTicket === 3 && (
@@ -408,6 +560,78 @@ const credentialAbandon = () => {
                           Bangkok After Dark:
                           <br />A Night of Music and Celebration
                         </p>
+                        <div className="flex flex-col items-start p-4 rounded-lg shadow-sm w-full bg-gray-100 mt-4">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-full bg-gray-200">
+                            <img
+                                src={IconImage}
+                                alt="Icon"
+                                className="w-4 h-4 object-contain"
+                              />
+                            </div>
+                            <p className="text-sm text-gray-700">
+                              2 ธ.ค. 2566 - 7 ก.ย. 2567, 14.15
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-full bg-gray-200">
+                            <img
+                                src={IconImage2}
+                                alt="Icon"
+                                className="w-4 h-4 object-contain"
+                              />
+                            </div>
+                            <p className="text-sm text-gray-700">
+                              เมืองทองธานี
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-full bg-gray-200">
+                            <img
+                                src={IconImage3}
+                                alt="Icon"
+                                className="w-4 h-4 object-contain"
+                              />
+                            </div>
+                            <p className="text-sm text-gray-700">
+                              No. 510000531099
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-full bg-gray-200">
+                            <img
+                                src={IconImage4}
+                                alt="Icon"
+                                className="w-4 h-4 object-contain"
+                              />
+                            </div>
+                            <p className="text-sm text-gray-700">B2, BB49</p>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-start p-4 rounded-lg shadow-sm w-full bg-gray-100 mt-4">
+                          <div className="flex justify-between items-center w-full">
+                            <p className="text-sm text-gray-700">
+                              จำนวนทั้งหมด
+                            </p>
+                            <p className="text-sm font-bold text-gray-900">
+                              1 ใบ
+                            </p>
+                          </div>
+                        </div>
+                        <div className="absolute left-0 bottom-4 w-full border-t border-gray-300 pt-4">
+                          <div className="flex justify-end pr-4">
+                            <button
+                              className="bg-[#7A66D6] text-white px-4 py-2 w-auto rounded-full font-roboto hover:bg-[#6b5ac3] transition"
+                              onClick={() => {
+                                showModal();
+                                handleSubmit();
+                              }}
+                              type="button"
+                            >
+                              สร้าง Verifiable Credentials
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div>
