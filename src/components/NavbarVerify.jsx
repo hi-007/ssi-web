@@ -31,7 +31,7 @@ const NavbarVerify = () => {
                             to="/homeverify"
                             className={`inline-block py-2 px-6 text-gray-600 hover:text-gray-800 font-light ${
                               activeTab === "tabs-with-pill-1"
-                              ? "bg-[#1A3D93] text-white rounded-full hover:text-white"
+                              ? "bg-[#DB4700] text-white rounded-full hover:text-white"
                               : "text-gray-600 hover:text-gray-800"
                             }`}
                             onClick={() => setActiveTab("tabs-with-pill-1")}
@@ -45,7 +45,7 @@ const NavbarVerify = () => {
                             to="/organization-infoverify"
                             className={`inline-block py-2 px-6 text-gray-600 hover:text-gray-800 font-light ${
                               activeTab === "tabs-with-pill-2"
-                              ? "bg-[#1A3D93] text-white rounded-full hover:text-white"
+                              ? "bg-[#DB4700] text-white rounded-full hover:text-white"
                               : "text-gray-600 hover:text-gray-800"
                             }`}
                             onClick={() => setActiveTab("tabs-with-pill-2")}
@@ -59,7 +59,7 @@ const NavbarVerify = () => {
                             to="/news-infoverify"
                             className={`inline-block py-2 px-6 ${
                               activeTab === "tabs-with-pill-3"
-                                ? "bg-[#1A3D93] text-white rounded-full hover:text-white"
+                                ? "bg-[#DB4700] text-white rounded-full hover:text-white"
                                 : "text-gray-600 hover:text-gray-800"
                             } font-light`}
                             onClick={() => setActiveTab("tabs-with-pill-3")}
@@ -73,7 +73,7 @@ const NavbarVerify = () => {
                             to="/faqverify"
                             className={`inline-block py-2 px-6 text-gray-600 hover:text-gray-800 font-light ${
                               activeTab === "tabs-with-pill-4"
-                              ? "bg-[#1A3D93] text-white rounded-full hover:text-white"
+                              ? "bg-[#DB4700] text-white rounded-full hover:text-white"
                               : "text-gray-600 hover:text-gray-800"
                             }`}
                             onClick={() => setActiveTab("tabs-with-pill-4")}
@@ -145,7 +145,7 @@ const NavbarVerify = () => {
                   <Link to="/profileverify">
                     <button
                       type="button"
-                      className="py-2.5 px-6 text-sm rounded-full bg-[#1A3D93] text-white cursor-pointer font-light text-center shadow-xs transition-all duration-500 hover:bg-indigo-700"
+                      className="py-2.5 px-6 text-sm rounded-full bg-[#DB4700] text-white cursor-pointer font-light text-center shadow-xs transition-all duration-500 hover:bg-indigo-700"
                     >
                       ดูโปรไฟล์
                     </button>

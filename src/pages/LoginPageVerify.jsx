@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
 import LogoVertex from "../assets/svg/LogoVertex.svg";
-import Rectangle2 from "../assets/svg/Rectangle2.svg";
+import VertexBg from "../assets/img/vertex-login.png";
 
 const LoginPageVerify = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -18,7 +18,7 @@ const LoginPageVerify = () => {
         <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
           <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
             <img
-              src={Rectangle2}
+              src={VertexBg}
               alt="Logo"
               className="absolute inset-0 h-full w-full object-cover"
             />
@@ -145,7 +145,7 @@ const LoginPageVerify = () => {
                     </div>
                   </div>
                   <div>
-                    <a class="text-sm font-normal text-gray-600">
+                    <a class="text-sm font-normal text-[#B93C00]">
                       ลืมรหัสผ่าน ?
                     </a>
                   </div>
@@ -153,7 +153,7 @@ const LoginPageVerify = () => {
 
                 <Link to="/homeverify">
                   <div className="pt-4">
-                    <button class="w-full h-12 shadow-sm rounded-md bg-[#1A3D93] hover:bg-[#1A3D93] transition-all duration-700 text-white text-base font-semibold leading-7">
+                    <button class="w-full h-12 shadow-sm rounded-md bg-[#DB4700] hover:bg-[#ec8251] transition-all duration-700 text-white text-base font-semibold leading-7">
                       เข้าสู่ระบบ
                     </button>
                   </div>

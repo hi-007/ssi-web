@@ -13,7 +13,7 @@ const HomePageEticket = () => {
   return (
     <>
       <div className="max-w-full bg-white">
-        <div
+        <div className="h-auto w-full"
         >
           <Carousel/>
         </div>

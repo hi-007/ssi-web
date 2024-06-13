@@ -43,7 +43,7 @@ const App = () => {
                     </Route>
                 </Route>
                 <Route element={<LoginLayoutVerify />}>
-                    <Route path="/" element={<LoginPageVerify />} />
+                    <Route path="/xxx" element={<LoginPageVerify />} />
                     <Route element={<AuthenticatedLayoutVerify />}>
                         <Route path="/homeverify" element={<HomePageVerify />} />
                         <Route path="/organization-infoverify" element={<OrganizationInfoPageVerify />} />

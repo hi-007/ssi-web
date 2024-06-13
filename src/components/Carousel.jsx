@@ -15,19 +15,18 @@ const Carousel = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
-
   };
 
   return (
     <Slider {...settings}>
       <div>
-        <img src={Carousel1} alt="Image 1" />
+        <img src={Carousel1} alt="Image 1" className='w-full h-auto object-cover'/>
       </div>
       <div>
-        <img src={Carousel2} alt="Image 2" />
+        <img src={Carousel2} alt="Image 2" className='w-full h-auto object-cover'/>
       </div>
       <div>
-        <img src={Carousel3} alt="Image 3" />
+        <img src={Carousel3} alt="Image 3" className='w-full h-auto object-cover'/>
       </div>
     </Slider>
   );

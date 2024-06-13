@@ -30,6 +30,8 @@ const ProfilePageEticket = () => {
   const [qrLink, setQrLink] = useState("");
   const [connection_id, setConnectionId] = useState("");
   //    const [person, setPerson] = useState({})
+
+  //แก้ข้อมูลเลยชุดนี้เลยจ้า
   const [credential, setCredentail] = useState({
     organization_address_state: "กรุงเทพมหานคร",
     organization_address_line: "1 ถนนโนวา",
@@ -485,7 +487,7 @@ const credentialAbandon = () => {
                               />
                             </div>
                             <p className="text-sm text-gray-700">
-                              2 ธ.ค. 2566 - 7 ก.ย. 2567, 14.15
+                            29 มิ.ย. 2567 - 30 มิ.ย. 2567, 14.15
                             </p>
                           </div>
                           <div className="flex items-center gap-3 mb-2">
@@ -554,7 +556,7 @@ const credentialAbandon = () => {
                         <img
                           src={EticketHome3}
                           alt="11"
-                          className="h-[200px] w-[160px]"
+                          className="h-[220px] w-[180px]"
                         />
                         <p className="mt-4 font-semibold text-black text-[18px] px-5 text-center">
                           Bangkok After Dark:
@@ -570,7 +572,7 @@ const credentialAbandon = () => {
                               />
                             </div>
                             <p className="text-sm text-gray-700">
-                              2 ธ.ค. 2566 - 7 ก.ย. 2567, 14.15
+                            15 มิ.ย. 2567 - 16 มิ.ย. 2567, 14.15
                             </p>
                           </div>
                           <div className="flex items-center gap-3 mb-2">
@@ -683,7 +685,7 @@ const credentialAbandon = () => {
                             href="javascript:;"
                             onClick={() => setSelectedMenu("profile")}
                             className={`p-3 rounded-lg items-center inline-flex w-full ${
-                              selectedMenu === "profile" ? "bg-blue-200" : ""
+                              selectedMenu === "profile" ? "bg-[#EAE6FF]" : ""
                             } hover:bg-gray-100`}
                           >
                             <div className="h-5 items-center gap-3 flex">
@@ -704,7 +706,7 @@ const credentialAbandon = () => {
                                 </svg>
                               </div>
                               <h2 className="text-gray-500 text-sm font-medium leading-snug">
-                                ข้อมูลของฉัน
+                                ข้อมูลส่วนตัว
                               </h2>
                             </div>
                           </a>
@@ -714,7 +716,7 @@ const credentialAbandon = () => {
                             href="javascript:;"
                             onClick={() => setSelectedMenu("settings")}
                             className={`p-3 rounded-lg items-center inline-flex w-full ${
-                              selectedMenu === "settings" ? "bg-[#C6E3F8]" : ""
+                              selectedMenu === "settings" ? "bg-[#EAE6FF]" : ""
                             } hover:bg-gray-100`}
                           >
                             <div className="h-5 items-center gap-3 flex">

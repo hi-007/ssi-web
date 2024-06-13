@@ -17,6 +17,7 @@ import {
   Select,
   ConfigProvider,
   Calendar,
+  Badge,
 } from "antd";
 import {
   createInvitation,
@@ -73,6 +74,45 @@ const ProfilePageVerify = () => {
     "condition_note",
     "organization_name",
   ];
+
+  const [leaveData, setLeaveData] = useState({
+    '2024-06-04': { type: 'sick', content: 'ลาป่วย' },
+    '2024-06-29': { type: 'annual', content: 'ลาพักร้อน' }
+  });
+
+  const addSickLeave = () => {
+    const newLeaveData = { ...leaveData };
+    let daysAdded = 0; // Counter for added sick leave days
+    let date = moment(); // Start from today
+  
+    while (daysAdded < 7) {
+      // Check if the day is not Saturday (6) or Sunday (0)
+      if (date.day() !== 6 && date.day() !== 0) {
+        const formattedDate = date.format("YYYY-MM-DD");
+        newLeaveData[formattedDate] = { type: "sick", content: "ลาป่วย" };
+      }
+      daysAdded++;
+      date.add(1, "days"); // Move to the next day
+    }
+  
+    setLeaveData(newLeaveData);
+  };
+
+  const dateCellRender = (value) => {
+    const formattedDate = value.format("YYYY-MM-DD");
+    const leaveInfo = leaveData[formattedDate];
+
+    return leaveInfo ? (
+      <ul className="events">
+        <li>
+          <Badge
+            status={leaveInfo.type === "annual" ? "success" : "warning"}
+            text={leaveInfo.content}
+          />
+        </li>
+      </ul>
+    ) : null;
+  };
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -145,9 +185,8 @@ const ProfilePageVerify = () => {
     setLoading(true);
     const revealed = await getRevealedAttrs(AgentUrl, AgentKey, pres_ex_id);
     console.log("revealedAttrs", revealed);
-    // setFormValues(revealed);
     form.setFieldsValue({
-      dates: [moment(), moment().add(7, "days")],
+      dates: [moment(), moment().add(6, "days")],
       reason: revealed?.condition_note.raw,
       given_by:
         "นายแพทย์ " +
@@ -158,6 +197,7 @@ const ProfilePageVerify = () => {
     setIndex(2);
     setLoading(false);
     setTimeout(() => {
+      addSickLeave();
       setIsConfirmed(true);
       setOpen(false);
     }, 3000);
@@ -323,9 +363,6 @@ const ProfilePageVerify = () => {
                         หัสนัย ณ พัทลุง
                       </h2>
                       <p className="text-gray-400">hassanai@vertex.com</p>
-                      <span className="bg-[#1A3D93] text-white text-sm px-3 py-1 rounded-full mt-2 inline-block">
-                        ผู้ดูแลระบบ
-                      </span>
                     </div>
                     <div className=" mt-4">
                       <ul className="flex-col gap-1 flex w-full">
@@ -334,7 +371,9 @@ const ProfilePageVerify = () => {
                             href="javascript:;"
                             onClick={() => setSelectedMenu("profile")}
                             className={`p-3 rounded-lg items-center inline-flex w-full ${
-                              selectedMenu === "profile" ? "bg-blue-200" : ""
+                              selectedMenu === "profile"
+                                ? "bg-[#FFF2EB] text-[#F16623] font-bold"
+                                : ""
                             } hover:bg-gray-100`}
                           >
                             <div className="h-5 items-center gap-3 flex">
@@ -354,7 +393,7 @@ const ProfilePageVerify = () => {
                                   </g>
                                 </svg>
                               </div>
-                              <h2 className="text-gray-500 text-sm font-medium leading-snug">
+                              <h2 className="text-[#F16623] text-sm font-medium leading-snug">
                                 ข้อมูลของฉัน
                               </h2>
                             </div>
@@ -426,244 +465,189 @@ const ProfilePageVerify = () => {
                 </Card>
               </Col>
 
-              <Col span={18}>
-                <ConfigProvider locale={customLocale}>
-                  <Form
-                    form={form}
-                    onFinish={onFinish}
-                    initialValues={{ remember: true }}
-                    layout="vertical"
-                    className="text-form"
-                    size="large"
-                  >
-                    <Card
-                      title=""
-                      bordered={false}
-                      className="rounded-3xl w-full"
+              {!isAddLeave ? <Col span={18}>
+                <Card
+                  title="ตารางเวลา"
+                  bordered={false}
+                  className="rounded-3xl w-full"
+                  extra={
+                    <button
+                      type="button"
+                      onClick={()=>{setIsAddLeave(true)}}
+                      className="w-full py-1.5 px-6 rounded-full shadow-xs bg-[#DB4700] text-white"
                     >
-                      <p className="text-lg font-semibold">แบบฟอร์มการขอลา</p>
-                      <Form.Item
-                        name="leaveType"
-                        label="ประเภทการลา"
-                        rules={[
-                          {
-                            required: true,
-                            message: "โปรดกรอกข้อมูล",
-                          },
-                        ]}
-                        className="mt-5"
+                      เพิ่มข้อมูลการลา
+                    </button>
+                  }
+                >
+                  <Calendar cellRender={dateCellRender} />
+                </Card>
+              </Col>
+              :<Col span={18}>
+              <ConfigProvider locale={customLocale}>
+                <Form
+                  form={form}
+                  onFinish={onFinish}
+                  initialValues={{ remember: true }}
+                  layout="vertical"
+                  className="text-form"
+                  size="large"
+                >
+                  <Card
+                    title=""
+                    bordered={false}
+                    className="rounded-3xl w-full"
+                  >
+                    <p className="text-lg font-semibold">แบบฟอร์มการขอลา</p>
+                    <Form.Item
+                      name="leaveType"
+                      label="ประเภทการลา"
+                      rules={[
+                        {
+                          required: true,
+                          message: "โปรดกรอกข้อมูล",
+                        },
+                      ]}
+                      className="mt-5"
+                    >
+                      <Select
+                        placeholder="เลือกประเภทการลา"
+                        onChange={(value) => {
+                          setLeaveType(value);
+                        }}
                       >
-                        <Select
-                          placeholder="เลือกประเภทการลา"
-                          onChange={(value) => {
-                            setLeaveType(value);
-                          }}
-                        >
-                          <Option value="sick">ลาป่วย</Option>
-                          <Option value="annual">ลาพักร้อน</Option>
-                          <Option value="personal">ลากิจ</Option>
-                          <Option value="maternity">ลาคลอดบุตร</Option>
-                        </Select>
-                      </Form.Item>
+                        <Option value="sick">ลาป่วย</Option>
+                        <Option value="annual">ลาพักร้อน</Option>
+                        <Option value="personal">ลากิจ</Option>
+                        <Option value="maternity">ลาคลอดบุตร</Option>
+                      </Select>
+                    </Form.Item>
 
-                      {leaveType === "sick" && (
-                        <>
-                          <div className="grid grid-cols-12 items-center rounded-lg mb-5">
-                            <div className="col-span-7">
-                              <p>
-                                <span className="text-red-500 text-xs">*</span>{" "}
-                                ใบรับรองแพทย์
-                              </p>
-                            </div>
-                            <div className="col-span-5 flex justify-end">
-                              {isConfirmed ? (
-                                <div className="flex items-center justify-center">
-                                  <CheckCircleFilled
-                                    style={{ color: "green", fontSize: "32px" }}
-                                  />
-                                </div>
-                              ) : (
-                                <button
-                                  onClick={() => {
-                                    getStart();
-                                    showModal();
-                                  }}
-                                  type="button"
-                                  disabled={isConfirmed}
-                                  className={`py-2 px-5 text-sm rounded-full text-white text-body font-light text-center shadow-xs transition-all duration-500 ${
-                                    !isConfirmed
-                                      ? "bg-[#1A3D93] cursor-pointer hover:bg-indigo-700"
-                                      : "bg-gray-400 cursor-not-allowed"
-                                  }`}
-                                >
-                                  Verify Credentials
-                                </button>
-                              )}
-                            </div>
+                    {leaveType === "sick" && (
+                      <>
+                        <div className="grid grid-cols-12 items-center rounded-lg mb-5">
+                          <div className="col-span-7">
+                            <p>
+                              <span className="text-red-500 text-xs">*</span>{" "}
+                              ใบรับรองแพทย์
+                            </p>
                           </div>
-
-                          <Form.Item
-                            name="dates"
-                            label="วันที่"
-                            rules={[
-                              {
-                                required: true,
-                                message: "โปรดกรอกข้อมูล",
-                              },
-                            ]}
-                          >
-                            <DatePicker.RangePicker
-                              placeholder="ระบุวันที่"
-                              disabled={!isConfirmed}
-                              readOnly
-                            />
-                          </Form.Item>
-
-                          <Form.Item
-                            name="reason"
-                            label="รายละเอียด"
-                            rules={[
-                              {
-                                required: true,
-                                message: "โปรดกรอกข้อมูล",
-                              },
-                            ]}
-                          >
-                            <TextArea
-                              rows={4}
-                              placeholder="รายละเอียด"
-                              disabled={!isConfirmed}
-                              readOnly
-                            />
-                          </Form.Item>
-
-                          <Form.Item
-                            name="given_by"
-                            label="ออกให้โดย"
-                            rules={[
-                              {
-                                required: true,
-                                message: "โปรดกรอกข้อมูล",
-                              },
-                            ]}
-                          >
-                            <Input
-                              type="text"
-                              placeholder="ออกให้โดย"
-                              disabled={!isConfirmed}
-                              readOnly
-                            />
-                          </Form.Item>
-                        </>
-                      )}
-
-                      {/* <Form.Item
-                        name="attachments"
-                        label="เอกสารหลักฐาน"
-                        rules={[
-                          {
-                            required: true,
-                            message: "โปรดแนบเอกสาร",
-                          },
-                        ]}
-                      >
-                        
-                        <div className="flex">
-                          <label
-                            htmlFor="img_files"
-                            className={`py-2.5 px-6 ml-2 text-sm rounded-full text-white text-body font-light text-center shadow-xs transition-all duration-500 ${
-                              fileList.length > 0
-                                ? "bg-gray-400 cursor-not-allowed"
-                                : "bg-[#1A3D93] cursor-pointer hover:bg-indigo-700"
-                            }`}
-                          >
-                            อัพโหลดไฟล์
-                          </label>
-                          <input
-                            id="img_files"
-                            type="file"
-                            value=""
-                            onChange={(e) => fileAdd(e, fileList, setFileList)}
-                            accept=".jpg, .jpeg, .png"
-                            className="opacity-0 pointer-events-none"
-                          />
-                        </div>
-
-                        {fileList.length >= 0 ? (
-                          <div className="drop-file-preview">
-                            {fileList.map((item, index) => (
-                              <div
-                                key={index}
-                                className="drop-file-preview__item"
-                              >
-                                <img
-                                  src={
-                                    ImageConfig[item.type.split("/")[1]] ||
-                                    ImageConfig["default"]
-                                  }
-                                  alt=""
+                          <div className="col-span-5 flex justify-end">
+                            {isConfirmed ? (
+                              <div className="flex items-center justify-center">
+                                <CheckCircleFilled
+                                  style={{ color: "green", fontSize: "32px" }}
                                 />
-                                <div className="drop-file-preview__item__info">
-                                  <a
-                                    href={URL.createObjectURL(item)}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                  >
-                                    {item.name}
-                                  </a>
-                                  <p>{(item.size / 1000000).toFixed(3)} MB</p>
-                                </div>
-                                <span
-                                  className="drop-file-preview__item__del"
-                                  onClick={() =>
-                                    fileRemove(item, fileList, setFileList)
-                                  }
-                                >
-                                  <svg
-                                    className="w-4 h-4 fill-current"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-                                  </svg>
-                                </span>
                               </div>
-                            ))}
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  getStart();
+                                  showModal();
+                                }}
+                                type="button"
+                                disabled={isConfirmed}
+                                className={`py-2 px-5 text-sm rounded-full text-white text-body font-light text-center shadow-xs transition-all duration-500 ${
+                                  !isConfirmed
+                                    ? "bg-[#DB4700] cursor-pointer"
+                                    : "bg-gray-400 cursor-not-allowed"
+                                }`}
+                              >
+                                Verify Credentials
+                              </button>
+                            )}
                           </div>
-                        ) : null}
-                      </Form.Item> */}
-                    </Card>
-                    <div class="flex justify-end mt-4">
-                      <div>
-                        <div>
-                          <button
-                            type="button"
-                            class="w-32 mr-2 py-2.5 px-6 text-sm border border-[#1A3D93] rounded-full shadow-xs bg-white font-light text-body text-[#1A3D93] transition-all duration-500 hover:bg-gray-50"
-                          >
-                            ยกเลิก
-                          </button>
                         </div>
-                      </div>
+
+                        <Form.Item
+                          name="dates"
+                          label="วันที่"
+                          rules={[
+                            {
+                              required: true,
+                              message: "โปรดกรอกข้อมูล",
+                            },
+                          ]}
+                        >
+                          <DatePicker.RangePicker
+                            placeholder="ระบุวันที่"
+                            disabled={!isConfirmed}
+                            readOnly
+                          />
+                        </Form.Item>
+
+                        <Form.Item
+                          name="reason"
+                          label="รายละเอียด"
+                          rules={[
+                            {
+                              required: true,
+                              message: "โปรดกรอกข้อมูล",
+                            },
+                          ]}
+                        >
+                          <TextArea
+                            rows={4}
+                            placeholder="รายละเอียด"
+                            disabled={!isConfirmed}
+                            readOnly
+                          />
+                        </Form.Item>
+
+                        <Form.Item
+                          name="given_by"
+                          label="ออกให้โดย"
+                          rules={[
+                            {
+                              required: true,
+                              message: "โปรดกรอกข้อมูล",
+                            },
+                          ]}
+                        >
+                          <Input
+                            type="text"
+                            placeholder="ออกให้โดย"
+                            disabled={!isConfirmed}
+                            readOnly
+                          />
+                        </Form.Item>
+                      </>
+                    )}
+                  </Card>
+                  <div class="flex justify-end mt-4">
+                    <div>
                       <div>
                         <button
-                          onClick={() => setShowConfirmModal(true)}
                           type="button"
-                          disabled={!isConfirmed}
-                          className={`py-2.5 px-6 text-sm rounded-full text-white text-body font-light text-center shadow-xs transition-all duration-500 ${
-                            isConfirmed
-                              ? "bg-[#1A3D93] cursor-pointer hover:bg-indigo-700"
-                              : "bg-gray-400 cursor-not-allowed"
-                          }`}
+                          className="w-32 mr-2 py-2.5 px-6 text-sm border border-[#DB4700] rounded-full shadow-xs bg-white font-light text-body text-[#DB4700] transition-all duration-500 hover:bg-gray-50"
+                          onClick={()=>{setIsAddLeave(false)}}
                         >
-                          ยืนยัน
+                          ยกเลิก
                         </button>
                       </div>
                     </div>
-                  </Form>
-                </ConfigProvider>
-                <div className="mt-4"></div>
-              </Col>
+                    <div>
+                      <button
+                        onClick={() => setShowConfirmModal(true)}
+                        type="button"
+                        disabled={!isConfirmed}
+                        className={`py-2.5 px-6 text-sm rounded-full text-white text-body font-light text-center shadow-xs transition-all duration-500 ${
+                          isConfirmed
+                            ? "bg-[#DB4700] cursor-pointer"
+                            : "bg-gray-400 cursor-not-allowed"
+                        }`}
+                      >
+                        ยืนยัน
+                      </button>
+                    </div>
+                  </div>
+                </Form>
+              </ConfigProvider>
+              <div className="mt-4"></div>
+            </Col>
+            }
+
+              
             </Row>
           </div>
         </div>
@@ -766,8 +750,8 @@ const ProfilePageVerify = () => {
               setShowConfirmModal(false);
               setShowSuccessModal(true);
             }}
-            style={{ backgroundColor: "#1A3D93", color: "white" }}
-            className="hover:bg-[#1A3D93] px-4 py-2 rounded-md mr-4"
+            style={{ backgroundColor: "#DB4700", color: "white" }}
+            className="hover:bg-[#DB4700] px-4 py-2 rounded-md mr-4"
           >
             ยืนยัน
           </Button>
@@ -775,7 +759,7 @@ const ProfilePageVerify = () => {
             onClick={() => {
               setShowConfirmModal(false);
             }}
-            className="bg-white text-[#1A3D93] border-[1.5px] border-[#1A3D93] px-4 py-2 rounded-md"
+            className="bg-white text-[#DB4700] border-[1.5px] border-[#DB4700] px-4 py-2 rounded-md"
           >
             ยกเลิก
           </Button>
@@ -810,10 +794,11 @@ const ProfilePageVerify = () => {
             onClick={() => {
               setShowConfirmModal(false);
               setShowSuccessModal(false);
-              navigate("/homeverify");
+              setIsAddLeave(false);
+              // navigate("/homeverify");
             }}
-            style={{ backgroundColor: "#1A3D93", color: "white" }}
-            className="hover:bg-[#1A3D93] px-4 py-2 rounded-md"
+            style={{ backgroundColor: "#DB4700", color: "white" }}
+            className="hover:bg-[#DB4700] px-4 py-2 rounded-md"
           >
             ตกลง
           </Button>
