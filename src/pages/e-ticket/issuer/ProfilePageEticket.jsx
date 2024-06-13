@@ -838,7 +838,7 @@ const credentialAbandon = () => {
                   />
                 </div>
                 <div className="flex flex-col items-center justify-center text-center text-profile text-[16px] leading-[28px] mt-5">
-                  <p>ออกเอกสารใบอนุญาตสำเร็จ</p>
+                  <p>ออกตั๋วสำเร็จ</p>
                 </div>
               </div>
             ) : (
