@@ -77,7 +77,7 @@ const ProfilePageVerify = () => {
 
   const [leaveData, setLeaveData] = useState({
     '2024-06-04': { type: 'sick', content: 'ลาป่วย' },
-    '2024-06-29': { type: 'annual', content: 'ลาพักร้อน' }
+    '2024-06-28': { type: 'annual', content: 'ลาพักร้อน' }
   });
 
   const addSickLeave = () => {
