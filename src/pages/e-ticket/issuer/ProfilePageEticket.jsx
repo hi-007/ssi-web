@@ -121,11 +121,11 @@ const handleScanQr = async () => {
       ticket = credential3
     }
     console.log(ticket)
-    //const offer = createOffer(connection_id, CredDefId, credential);
-    //console.log(JSON.stringify(offer));
-    //const result = await sendOffer(AgentUrl, AgentKey, offer);
+    const offer = createOffer(connection_id, CredDefId, credential);
+    console.log(JSON.stringify(offer));
+    const result = await sendOffer(AgentUrl, AgentKey, offer);
 
-    //return result;
+    return result;
   };
 
   const credentialAck = () => {
