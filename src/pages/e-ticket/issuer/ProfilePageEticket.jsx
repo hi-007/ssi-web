@@ -24,7 +24,7 @@ const ProfilePageEticket = () => {
   const AgentUrl = import.meta.env.VITE_ISSUER_API;
   const AgentWss = import.meta.env.VITE_ISSUER_WSS;
   const AgentKey = import.meta.env.VITE_ISSUER_KEY;
-  const CredDefId = import.meta.env.VITE_CREDDEF_GUIDE_LICENSE;
+  const CredDefId = import.meta.env.VITE_CREDDEF_NOVA_EVENT_TICKET;
   const [form] = Form.useForm();
   const [index, setIndex] = useState(0);
   const [qrLink, setQrLink] = useState("");
@@ -33,42 +33,14 @@ const ProfilePageEticket = () => {
 
   //แก้ข้อมูลเลยชุดนี้เลยจ้า
   const [credential, setCredentail] = useState({
-    organization_address_state: "กรุงเทพมหานคร",
-    organization_address_line: "1 ถนนโนวา",
-    condition_note: "เป็นไข้สูง ควรพักผ่อนให้เพียงพอ งดทำงานเป็นเวลา 5-7 วัน",
-    id: "0129023",
-    patient_gender: "Male",
-    context: "https://ict.moph.go.th/MC",
-    patient_name_family: "ณ พัทลุง",
-    provenance_signature_data: "",
-    practitioner_name_given: "สมศักดิ์",
-    organization_address_postal_code: "10400",
-    organization_name: "Nova Hospital",
-    patient_name_given: "หัสนัย",
-    practitioner_id_value: "012345",
-    patient_address_line: "127/4 หมู่ที่ 1 ",
-    condition_code_display: "Not fit for work",
-    patient_id_type: "NI",
-    practitioner_name_prefix: "นายแพทย์",
-    organization_address_district: "พญาไท",
-    patient_address_county: "ประเทศไทย",
-    organization_address_city: "สามเสนใน",
-    patient_id_value: "1299300348981",
-    period_start: "2024-06-15T00:00:00Z",
-    patient_address_city: "ต.ปากน้ำ",
-    practitioner_name_family: "ศรีสุข",
-    patient_birth_date: "1980-01-01",
-    provenance_signature_time: "2024-06-15T17:20:10Z",
-    patient_name_prefix: "นาย",
-    ondition_code: "102499006",
-    organization_id_value: "54321",
-    practitioner_id_type: "MD",
-    patient_address_district: "เบตง",
-    patient_address_postal_code: "90160",
-    organization_address_county: "ประเทศไทย",
-    provenance_author: "นายแพทย์ สมศักดิ์ ศรีสุข",
-    period_end: "2024-06-20T23:59:59Z",
-    patient_address_state: "ยะลา",
+    email: "hassanai@gmail.com",
+    event_date_time: "2024-06-15T17:20:10Z",
+    event_id: "510000531099",
+    event_image: "http://210.246.185.68:8082/assets/EticketHome1-B5QBbH2_.png",
+    event_name: `Bangkok Nights: A Symphony Under the Stars`,
+    event_round: "1",
+    mobile: "09-4311-5619",
+    seat_number: "B2, BB49"
   });
 
   const { lastMessage, readyState } = useWebSocket(
