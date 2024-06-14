@@ -42,6 +42,26 @@ const ProfilePageEticket = () => {
     mobile: "09-4311-5619",
     seat_number: "B2, BB49"
   });
+  const [credential2, setCredentail2] = useState({
+    email: "hassanai@gmail.com",
+    event_date_time: "2024-06-15T17:20:10Z",
+    event_id: "510000531099",
+    event_image: "http://210.246.185.68:8082/assets/EticketHome2-BVYLDGYv.png",
+    event_name: `Eclipse: Bangkok's Night Concert Extravaganza`,
+    event_round: "2",
+    mobile: "09-4311-5619",
+    seat_number: "B2, BB49"
+  });
+  const [credential3, setCredentail3] = useState({
+    email: "hassanai@gmail.com",
+    event_date_time: "2024-06-15T17:20:10Z",
+    event_id: "510000531099",
+    event_image: "http://210.246.185.68:8082/assets/EticketHome3-Db1uSket.png",
+    event_name: `Bangkok After Dark: A Night of Music and Celebration`,
+    event_round: "2",
+    mobile: "09-4311-5619",
+    seat_number: "B2, BB49"
+  });
 
   const { lastMessage, readyState } = useWebSocket(
     `${AgentWss}?apikey=${AgentKey}`
@@ -92,11 +112,20 @@ const handleScanQr = async () => {
 
   const sendCredentialOffer = async () => {
     setLoading(true);
-    const offer = createOffer(connection_id, CredDefId, credential);
-    console.log(JSON.stringify(offer));
-    const result = await sendOffer(AgentUrl, AgentKey, offer);
+    let ticket = credential;
+    if(selectedTicket == 1){
+      ticket = credential
+    }else if(selectedTicket == 2){
+      ticket = credential2
+    }else if(selectedTicket == 3){
+      ticket = credential3
+    }
+    console.log(ticket)
+    //const offer = createOffer(connection_id, CredDefId, credential);
+    //console.log(JSON.stringify(offer));
+    //const result = await sendOffer(AgentUrl, AgentKey, offer);
 
-    return result;
+    //return result;
   };
 
   const credentialAck = () => {
