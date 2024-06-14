@@ -43,7 +43,7 @@ const NavbarVerify = () => {
                         <li>
                           <Link
                             to="/organization-infoverify"
-                            className={`inline-block py-2 px-6 text-gray-600 hover:text-gray-800 font-light ${
+                            className={`inline-block py-2 px-6 text-gray-600 hover:text-gray-800 font-light pointer-events-none ${
                               activeTab === "tabs-with-pill-2"
                               ? "bg-[#DB4700] text-white rounded-full hover:text-white"
                               : "text-gray-600 hover:text-gray-800"
@@ -57,7 +57,7 @@ const NavbarVerify = () => {
                         <li>
                           <Link
                             to="/news-infoverify"
-                            className={`inline-block py-2 px-6 ${
+                            className={`inline-block py-2 px-6 pointer-events-none ${
                               activeTab === "tabs-with-pill-3"
                                 ? "bg-[#DB4700] text-white rounded-full hover:text-white"
                                 : "text-gray-600 hover:text-gray-800"
@@ -71,7 +71,7 @@ const NavbarVerify = () => {
                         <li>
                           <Link
                             to="/faqverify"
-                            className={`inline-block py-2 px-6 text-gray-600 hover:text-gray-800 font-light ${
+                            className={`inline-block py-2 px-6 text-gray-600 hover:text-gray-800 font-light pointer-events-none ${
                               activeTab === "tabs-with-pill-4"
                               ? "bg-[#DB4700] text-white rounded-full hover:text-white"
                               : "text-gray-600 hover:text-gray-800"

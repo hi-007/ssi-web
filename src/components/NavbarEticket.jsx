@@ -43,7 +43,7 @@ const NavbarEticket = () => {
                         <li>
                           <Link
                             to="/organization-info-eticket"
-                            className={`inline-block py-2 px-6 text-gray-600 hover:text-gray-800 font-light ${
+                            className={`inline-block py-2 px-6 text-gray-600 hover:text-gray-800 font-light pointer-events-none ${
                               activeTab === "tabs-with-pill-2"
                               ? "bg-[#7A66D6] text-white rounded-full hover:text-white"
                               : "text-gray-600 hover:text-gray-800"
@@ -57,7 +57,7 @@ const NavbarEticket = () => {
                         <li>
                           <Link
                             to="/news-info-eticket"
-                            className={`inline-block py-2 px-6 ${
+                            className={`inline-block py-2 px-6 pointer-events-none ${
                               activeTab === "tabs-with-pill-3"
                                 ? "bg-[#7A66D6] text-white rounded-full hover:text-white"
                                 : "text-gray-600 hover:text-gray-800"
@@ -71,7 +71,7 @@ const NavbarEticket = () => {
                         <li>
                           <Link
                             to="/faq-eticket"
-                            className={`inline-block py-2 px-6 text-gray-600 hover:text-gray-800 font-light ${
+                            className={`inline-block py-2 px-6 text-gray-600 hover:text-gray-800 font-light pointer-events-none ${
                               activeTab === "tabs-with-pill-4"
                               ? "bg-[#7A66D6] text-white rounded-full hover:text-white"
                               : "text-gray-600 hover:text-gray-800"
